@@ -29,9 +29,10 @@ class MyApp extends StatelessWidget {
             () => GetMaterialApp(
               title: "SIMAG",
               defaultTransition: Transition.native,
+              theme: ThemeData.light(),
               initialRoute: introC.isSkipIntro.isTrue
                   ? introC.isAuth.isTrue
-                      ? Routes.HOME
+                      ? Routes.NAVIGATION_BAR
                       : Routes.LOGIN
                   : Routes.FIRST_STEP,
               getPages: AppPages.routes,
