@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/first_step_controller.dart';
@@ -12,104 +12,94 @@ class FirstStepView extends GetView<FirstStepController> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(
-                height: 60,
-              ),
               SizedBox(
-                width: 270,
-                height: 270,
-                child: Lottie.asset("assets/lottie/animation_working.json"),
+                width: 170,
+                height: 170,
+                child: Image.asset("assets/logo/logo.png"),
               ),
               const SizedBox(
-                height: 30,
+                height: 20.0,
               ),
               const Text(
                 "Internify.",
                 style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w800,
                   color: Color.fromARGB(255, 70, 116, 222),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Text(
-                  "The only way to do great work is to love what you do. If you haven't found it yet, keep looking. Don't settle.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300,
-                    color: Color.fromARGB(255, 49, 46, 58),
-                  ),
-                ),
+              const SizedBox(
+                height: 100.0,
               ),
-              const Text(
-                "- Steve Jobs -",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Color.fromARGB(255, 49, 46, 58),
-                ),
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 40.0,
+                    child: Text(
+                      "Find Your",
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w700,
+                        color: Color.fromARGB(255, 70, 116, 222),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40.0,
+                    child: Text(
+                      "Dream Internship",
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w700,
+                        color: Color.fromARGB(255, 246, 127, 202),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40.0,
+                    child: Text(
+                      "Here!",
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.w700,
+                        color: Color.fromARGB(255, 70, 116, 222),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Text(
+                    "Explore all the most exciting job roles based on your interest and study major.",
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w400,
+                      color: Color.fromARGB(255, 49, 46, 58),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
         ),
-        bottomNavigationBar: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () => Get.offAllNamed(Routes.LOGIN),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 70, 116, 222),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: const Text(
-                    "Sign In",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromARGB(255, 255, 255, 255),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () => Get.offAllNamed(Routes.REGISTER),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: const Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromARGB(255, 70, 116, 222),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 25.0),
+          child: FloatingActionButton(
+            backgroundColor: const Color.fromARGB(255, 70, 116, 222),
+            onPressed: () => Get.offAllNamed(Routes.LOGIN),
+            child: const Icon(
+              CupertinoIcons.arrow_right,
+              color: Colors.white,
+              size: 30.0,
+            ),
           ),
         ),
       ),

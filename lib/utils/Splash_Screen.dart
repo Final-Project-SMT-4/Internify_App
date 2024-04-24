@@ -20,8 +20,8 @@ class SplashScreen extends StatelessWidget {
               const Text(
                 "Internify.",
                 style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w800,
                   color: Color.fromARGB(255, 70, 116, 222),
                 ),
               ),
