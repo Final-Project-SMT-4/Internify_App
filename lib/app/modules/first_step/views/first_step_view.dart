@@ -18,8 +18,8 @@ class FirstStepView extends GetView<FirstStepController> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: 170,
-                height: 170,
+                width: 160,
+                height: 160,
                 child: Image.asset("assets/logo/logo.png"),
               ),
               const SizedBox(
@@ -40,7 +40,7 @@ class FirstStepView extends GetView<FirstStepController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: 40.0,
+                    height: 42.0,
                     child: Text(
                       "Find Your",
                       style: TextStyle(
@@ -51,7 +51,7 @@ class FirstStepView extends GetView<FirstStepController> {
                     ),
                   ),
                   SizedBox(
-                    height: 40.0,
+                    height: 42.0,
                     child: Text(
                       "Dream Internship",
                       style: TextStyle(
@@ -62,7 +62,7 @@ class FirstStepView extends GetView<FirstStepController> {
                     ),
                   ),
                   SizedBox(
-                    height: 40.0,
+                    height: 42.0,
                     child: Text(
                       "Here!",
                       style: TextStyle(

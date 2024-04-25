@@ -1,9 +1,7 @@
-// ignore_for_file: unnecessary_overrides
-
 import 'package:get/get.dart';
 
-class TaskController extends GetxController {
-  //TODO: Implement TaskController
+class ResetPasswordController extends GetxController {
+  //TODO: Implement ResetPasswordController
 
   final count = 0.obs;
   @override

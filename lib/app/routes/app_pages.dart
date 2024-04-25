@@ -1,7 +1,11 @@
 import 'package:get/get.dart';
 
+import '../modules/code_otp/bindings/code_otp_binding.dart';
+import '../modules/code_otp/views/code_otp_view.dart';
 import '../modules/first_step/bindings/first_step_binding.dart';
 import '../modules/first_step/views/first_step_view.dart';
+import '../modules/forget_password/bindings/forget_password_binding.dart';
+import '../modules/forget_password/views/forget_password_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -12,6 +16,8 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/reset_password/bindings/reset_password_binding.dart';
+import '../modules/reset_password/views/reset_password_view.dart';
 import '../modules/task/bindings/task_binding.dart';
 import '../modules/task/views/task_view.dart';
 import '../modules/timeline/bindings/timeline_binding.dart';
@@ -62,6 +68,21 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORGET_PASSWORD,
+      page: () => ForgetPasswordView(),
+      binding: ForgetPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.CODE_OTP,
+      page: () => const CodeOtpView(),
+      binding: CodeOtpBinding(),
+    ),
+    GetPage(
+      name: _Paths.RESET_PASSWORD,
+      page: () => const ResetPasswordView(),
+      binding: ResetPasswordBinding(),
     ),
   ];
 }
