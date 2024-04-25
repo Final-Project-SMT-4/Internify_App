@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:simag_app/app/modules/forget_password/views/forget_password_view.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
@@ -33,29 +34,33 @@ class LoginView extends GetView<LoginController> {
               : const NeverScrollableScrollPhysics(),
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   "Sign In",
-                  style: TextStyle(
-                    fontSize: 37,
-                    fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(255, 70, 116, 222),
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                      fontSize: 37,
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromARGB(255, 70, 116, 222),
+                    ),
                   ),
                 ),
-                const Text(
+                Text(
                   "Let's sign in and choose your internship goals.",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.black,
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 const SizedBox(
-                  height: 65,
+                  height: 40,
                 ),
                 FormBuilder(
                   key: _formKey,
@@ -63,12 +68,14 @@ class LoginView extends GetView<LoginController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         "Email :",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
+                        style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -77,37 +84,41 @@ class LoginView extends GetView<LoginController> {
                       FormBuilderTextField(
                         name: "email",
                         keyboardType: TextInputType.emailAddress,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
+                        style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                         scrollPadding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom,
                         ),
                         cursorColor: Colors.black,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
                             CupertinoIcons.mail,
                             size: 18.0,
                           ),
                           hintText: "Email Or Username",
-                          hintStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
+                          hintStyle: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                          border: OutlineInputBorder(
+                          border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(5),
                             ),
                             borderSide: BorderSide(color: Colors.grey),
                           ),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(5),
                             ),
                             borderSide: BorderSide(color: Colors.black),
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             vertical: 17,
                             horizontal: 17,
                           ),
@@ -120,11 +131,13 @@ class LoginView extends GetView<LoginController> {
                       const SizedBox(
                         height: 15,
                       ),
-                      const Text(
+                      Text(
                         "Password :",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
+                        style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -134,9 +147,11 @@ class LoginView extends GetView<LoginController> {
                         () => FormBuilderTextField(
                           name: 'password',
                           keyboardType: TextInputType.visiblePassword,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                           scrollPadding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -159,9 +174,11 @@ class LoginView extends GetView<LoginController> {
                               },
                             ),
                             hintText: "Password",
-                            hintStyle: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
+                            hintStyle: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                             border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
@@ -197,12 +214,14 @@ class LoginView extends GetView<LoginController> {
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 onTap: () => Get.to(ForgetPasswordView()),
-                                child: const Text(
+                                child: Text(
                                   "Forget Password ?",
-                                  style: TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color.fromARGB(255, 70, 116, 222),
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color.fromARGB(255, 70, 116, 222),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -211,7 +230,7 @@ class LoginView extends GetView<LoginController> {
                         ],
                       ),
                       const SizedBox(
-                        height: 40,
+                        height: 35,
                       ),
                       SizedBox(
                         width: double.infinity,
@@ -226,12 +245,14 @@ class LoginView extends GetView<LoginController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             "Sign In",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 255, 255, 255),
+                            style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
                             ),
                           ),
                         ),
@@ -242,28 +263,32 @@ class LoginView extends GetView<LoginController> {
                       Center(
                         child: GestureDetector(
                           onTap: () => Get.offAllNamed(Routes.REGISTER),
-                          child: const Column(
+                          child: Column(
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
                                     "Don't Have Account?",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.black,
+                                    style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 5,
                                   ),
                                   Text(
                                     "Sign Up",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color.fromARGB(255, 70, 116, 222),
+                                    style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromARGB(255, 49, 46, 58),
+                                      ),
                                     ),
                                   ),
                                 ],

@@ -76,7 +76,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CODE_OTP,
-      page: () => const CodeOtpView(),
+      page: () => CodeOtpView(),
       binding: CodeOtpBinding(),
     ),
     GetPage(

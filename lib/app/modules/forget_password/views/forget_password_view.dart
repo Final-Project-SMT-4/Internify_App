@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/forget_password_controller.dart';
@@ -36,24 +37,28 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   "Forget Password",
-                  style: TextStyle(
-                    fontSize: 37,
-                    fontWeight: FontWeight.w600,
-                    color: Color.fromARGB(255, 70, 116, 222),
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                      fontSize: 37,
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromARGB(255, 70, 116, 222),
+                    ),
                   ),
                 ),
-                const Text(
+                Text(
                   "Please enter your email to reset the password.",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w300,
-                    color: Colors.black,
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
                 const SizedBox(
-                  height: 45.0,
+                  height: 40.0,
                 ),
                 FormBuilder(
                   key: _formKey,
@@ -61,12 +66,14 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         "Email :",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
+                        style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -75,37 +82,41 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                       FormBuilderTextField(
                         name: "email",
                         keyboardType: TextInputType.emailAddress,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
+                        style: GoogleFonts.poppins(
+                          textStyle: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                         scrollPadding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom,
                         ),
                         cursorColor: Colors.black,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
                             CupertinoIcons.mail,
                             size: 18.0,
                           ),
                           hintText: "Email",
-                          hintStyle: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
+                          hintStyle: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ),
-                          border: OutlineInputBorder(
+                          border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(5),
                             ),
                             borderSide: BorderSide(color: Colors.grey),
                           ),
-                          focusedBorder: OutlineInputBorder(
+                          focusedBorder: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(5),
                             ),
                             borderSide: BorderSide(color: Colors.black),
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                             vertical: 17,
                             horizontal: 17,
                           ),
@@ -116,7 +127,7 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                         ]),
                       ),
                       const SizedBox(
-                        height: 40,
+                        height: 35,
                       ),
                       SizedBox(
                         width: double.infinity,
@@ -130,38 +141,55 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             "Reset Password",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 255, 255, 255),
+                            style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                              ),
                             ),
                           ),
                         ),
                       ),
                       const SizedBox(
-                        height: 12.0,
+                        height: 20.0,
                       ),
-                      SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () => Get.offAllNamed(Routes.LOGIN),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 49, 46, 58),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: const Text(
-                            "Back to Sign In",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
+                      Center(
+                        child: GestureDetector(
+                          onTap: () => Get.offAllNamed(Routes.LOGIN),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Back To Sign In?",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "Sign In",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromARGB(255, 49, 46, 58),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),

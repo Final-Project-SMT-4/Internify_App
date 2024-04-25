@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/first_step_controller.dart';
@@ -25,28 +26,32 @@ class FirstStepView extends GetView<FirstStepController> {
               const SizedBox(
                 height: 20.0,
               ),
-              const Text(
+              Text(
                 "Internify.",
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w800,
-                  color: Color.fromARGB(255, 70, 116, 222),
+                style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w800,
+                    color: Color.fromARGB(255, 70, 116, 222),
+                  ),
                 ),
               ),
               const SizedBox(
                 height: 100.0,
               ),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
                     height: 42.0,
                     child: Text(
                       "Find Your",
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w700,
-                        color: Color.fromARGB(255, 70, 116, 222),
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w700,
+                          color: Color.fromARGB(255, 70, 116, 222),
+                        ),
                       ),
                     ),
                   ),
@@ -54,10 +59,12 @@ class FirstStepView extends GetView<FirstStepController> {
                     height: 42.0,
                     child: Text(
                       "Dream Internship",
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w700,
-                        color: Color.fromARGB(255, 246, 127, 202),
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w700,
+                          color: Color.fromARGB(255, 246, 127, 202),
+                        ),
                       ),
                     ),
                   ),
@@ -65,23 +72,27 @@ class FirstStepView extends GetView<FirstStepController> {
                     height: 42.0,
                     child: Text(
                       "Here!",
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.w700,
-                        color: Color.fromARGB(255, 70, 116, 222),
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.w700,
+                          color: Color.fromARGB(255, 70, 116, 222),
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20.0,
                   ),
                   Text(
                     "Explore all the most exciting job roles based on your interest and study major.",
                     textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400,
-                      color: Color.fromARGB(255, 49, 46, 58),
+                    style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromARGB(255, 49, 46, 58),
+                      ),
                     ),
                   ),
                 ],
