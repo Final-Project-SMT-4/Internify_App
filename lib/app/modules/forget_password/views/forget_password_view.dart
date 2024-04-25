@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: prefer_const_constructors_in_immutables
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,16 +7,14 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:simag_app/app/modules/forget_password/views/forget_password_view.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
-import '../controllers/login_controller.dart';
+import '../controllers/forget_password_controller.dart';
 
-class LoginView extends GetView<LoginController> {
-  LoginView({Key? key}) : super(key: key);
+class ForgetPasswordView extends GetView<ForgetPasswordController> {
+  ForgetPasswordView({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormBuilderState>();
-  final _obscureText = true.obs;
 
   // Function to check if the keyboard is visible
   bool isKeyboardVisible(BuildContext context) {
@@ -34,13 +32,13 @@ class LoginView extends GetView<LoginController> {
               : const NeverScrollableScrollPhysics(),
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 25.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Sign In",
+                  "Forget Password",
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                       fontSize: 37,
@@ -50,7 +48,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                 ),
                 Text(
-                  "Let's sign in and choose your internship goals.",
+                  "Please enter your email to reset the password.",
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                       fontSize: 18,
@@ -60,7 +58,7 @@ class LoginView extends GetView<LoginController> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 40.0,
                 ),
                 FormBuilder(
                   key: _formKey,
@@ -87,7 +85,7 @@ class LoginView extends GetView<LoginController> {
                         style: GoogleFonts.poppins(
                           textStyle: const TextStyle(
                             fontSize: 18,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                         scrollPadding: EdgeInsets.only(
@@ -99,11 +97,11 @@ class LoginView extends GetView<LoginController> {
                             CupertinoIcons.mail,
                             size: 18.0,
                           ),
-                          hintText: "Email Or Username",
+                          hintText: "Email",
                           hintStyle: GoogleFonts.poppins(
                             textStyle: const TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.w400,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
                           border: const OutlineInputBorder(
@@ -129,115 +127,13 @@ class LoginView extends GetView<LoginController> {
                         ]),
                       ),
                       const SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        "Password :",
-                        style: GoogleFonts.poppins(
-                          textStyle: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Obx(
-                        () => FormBuilderTextField(
-                          name: 'password',
-                          keyboardType: TextInputType.visiblePassword,
-                          style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          scrollPadding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom,
-                          ),
-                          cursorColor: Colors.black,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(
-                              CupertinoIcons.lock,
-                              size: 18.0,
-                            ),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _obscureText.value
-                                    ? CupertinoIcons.eye
-                                    : CupertinoIcons.eye_slash,
-                                size: 18.0,
-                              ),
-                              onPressed: () {
-                                _obscureText.toggle();
-                              },
-                            ),
-                            hintText: "Password",
-                            hintStyle: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5),
-                              ),
-                            ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5),
-                              ),
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 17,
-                              horizontal: 17,
-                            ),
-                          ),
-                          obscureText: _obscureText.value,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.equalLength(8),
-                            FormBuilderValidators.required(),
-                          ]),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: GestureDetector(
-                                onTap: () => Get.to(ForgetPasswordView()),
-                                child: Text(
-                                  "Forget Password ?",
-                                  style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w500,
-                                      color: Color.fromARGB(255, 70, 116, 222),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
                         height: 35,
                       ),
                       SizedBox(
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () =>
-                              Get.offAllNamed(Routes.NAVIGATION_BAR),
+                          onPressed: () => Get.offAllNamed(Routes.CODE_OTP),
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
                                 const Color.fromARGB(255, 70, 116, 222),
@@ -246,7 +142,7 @@ class LoginView extends GetView<LoginController> {
                             ),
                           ),
                           child: Text(
-                            "Sign In",
+                            "Reset Password",
                             style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
                                 fontSize: 20,
@@ -258,18 +154,18 @@ class LoginView extends GetView<LoginController> {
                         ),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 20.0,
                       ),
                       Center(
                         child: GestureDetector(
-                          onTap: () => Get.offAllNamed(Routes.REGISTER),
+                          onTap: () => Get.offAllNamed(Routes.LOGIN),
                           child: Column(
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    "Don't Have Account?",
+                                    "Back To Sign In?",
                                     style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                         fontSize: 18,
@@ -282,7 +178,7 @@ class LoginView extends GetView<LoginController> {
                                     width: 5,
                                   ),
                                   Text(
-                                    "Sign Up",
+                                    "Sign In",
                                     style: GoogleFonts.poppins(
                                       textStyle: const TextStyle(
                                         fontSize: 18,

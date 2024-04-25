@@ -13,6 +13,9 @@ abstract class Routes {
   static const TIMELINE = _Paths.TIMELINE;
   static const TASK = _Paths.TASK;
   static const PROFILE = _Paths.PROFILE;
+  static const FORGET_PASSWORD = _Paths.FORGET_PASSWORD;
+  static const CODE_OTP = _Paths.CODE_OTP;
+  static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
 }
 
 abstract class _Paths {
@@ -25,4 +28,7 @@ abstract class _Paths {
   static const TIMELINE = '/timeline';
   static const TASK = '/task';
   static const PROFILE = '/profile';
+  static const FORGET_PASSWORD = '/forget-password';
+  static const CODE_OTP = '/code-otp';
+  static const RESET_PASSWORD = '/reset-password';
 }

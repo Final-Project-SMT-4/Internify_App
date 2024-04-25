@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:get/get.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
@@ -11,6 +13,7 @@ class RegisterView extends GetView<RegisterController> {
   RegisterView({Key? key}) : super(key: key);
 
   final _formKey = GlobalKey<FormBuilderState>();
+  final _obscureText = true.obs;
 
   // Function to check if the keyboard is visible
   bool isKeyboardVisible(BuildContext context) {
@@ -28,29 +31,32 @@ class RegisterView extends GetView<RegisterController> {
                 ? const AlwaysScrollableScrollPhysics()
                 : const NeverScrollableScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.all(18),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      fontSize: 37,
-                      fontWeight: FontWeight.w600,
-                      color: Color.fromARGB(255, 70, 116, 222),
-                    ),
-                  ),
-                  const Text(
+                  Text("Sign Up",
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          fontSize: 37,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(255, 70, 116, 222),
+                        ),
+                      )),
+                  Text(
                     "Let's sign up and create your account.",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                      color: Colors.black,
+                    style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                   const SizedBox(
-                    height: 65,
+                    height: 40,
                   ),
                   FormBuilder(
                     key: _formKey,
@@ -58,12 +64,14 @@ class RegisterView extends GetView<RegisterController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           "Username :",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -72,33 +80,41 @@ class RegisterView extends GetView<RegisterController> {
                         FormBuilderTextField(
                           name: "username",
                           keyboardType: TextInputType.name,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                           cursorColor: Colors.black,
                           scrollPadding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).viewInsets.bottom,
                           ),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             hintText: "Username",
-                            hintStyle: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
+                            prefixIcon: const Icon(
+                              CupertinoIcons.person,
+                              size: 18.0,
                             ),
-                            border: OutlineInputBorder(
+                            hintStyle: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(5),
                               ),
                               borderSide: BorderSide(color: Colors.grey),
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(5),
                               ),
                               borderSide: BorderSide(color: Colors.black),
                             ),
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                               vertical: 17,
                               horizontal: 17,
                             ),
@@ -110,12 +126,14 @@ class RegisterView extends GetView<RegisterController> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
+                        Text(
                           "Email :",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -124,33 +142,41 @@ class RegisterView extends GetView<RegisterController> {
                         FormBuilderTextField(
                           name: "email",
                           keyboardType: TextInputType.emailAddress,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                           cursorColor: Colors.black,
                           scrollPadding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).viewInsets.bottom,
                           ),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             hintText: "Email",
-                            hintStyle: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
+                            prefixIcon: const Icon(
+                              CupertinoIcons.mail,
+                              size: 18.0,
                             ),
-                            border: OutlineInputBorder(
+                            hintStyle: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(5),
                               ),
                               borderSide: BorderSide(color: Colors.grey),
                             ),
-                            focusedBorder: OutlineInputBorder(
+                            focusedBorder: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(5),
                               ),
                               borderSide: BorderSide(color: Colors.black),
                             ),
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                               vertical: 17,
                               horizontal: 17,
                             ),
@@ -163,58 +189,79 @@ class RegisterView extends GetView<RegisterController> {
                         const SizedBox(
                           height: 15,
                         ),
-                        const Text(
+                        Text(
                           "Password :",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
                         const SizedBox(
                           height: 5,
                         ),
-                        FormBuilderTextField(
-                          name: 'password',
-                          keyboardType: TextInputType.visiblePassword,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          cursorColor: Colors.black,
-                          scrollPadding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom,
-                          ),
-                          decoration: const InputDecoration(
-                            hintText: "Password",
-                            hintStyle: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.normal,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5),
+                        Obx(
+                          () => FormBuilderTextField(
+                            name: 'password',
+                            keyboardType: TextInputType.visiblePassword,
+                            style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(5),
+                            cursorColor: Colors.black,
+                            scrollPadding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: "Password",
+                              hintStyle: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
-                              borderSide: BorderSide(color: Colors.black),
+                              prefixIcon: const Icon(
+                                CupertinoIcons.lock,
+                                size: 18.0,
+                              ),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscureText.value
+                                      ? CupertinoIcons.eye
+                                      : CupertinoIcons.eye_slash,
+                                  size: 18.0,
+                                ),
+                                onPressed: () {
+                                  _obscureText.toggle();
+                                },
+                              ),
+                              border: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                              ),
+                              focusedBorder: const OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 17,
+                                horizontal: 17,
+                              ),
                             ),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 17,
-                              horizontal: 17,
-                            ),
+                            obscureText: _obscureText.value,
+                            validator: FormBuilderValidators.compose([
+                              FormBuilderValidators.equalLength(8),
+                              FormBuilderValidators.required(),
+                            ]),
                           ),
-                          obscureText: true,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.equalLength(8),
-                            FormBuilderValidators.required(),
-                          ]),
                         ),
-                        const SizedBox(
-                          height: 40,
-                        ),
+                        const SizedBox(height: 35),
                         SizedBox(
                           width: double.infinity,
                           height: 50,
@@ -227,12 +274,14 @@ class RegisterView extends GetView<RegisterController> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: const Text(
+                            child: Text(
                               "Sign Up",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromARGB(255, 255, 255, 255),
+                              style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
                               ),
                             ),
                           ),
@@ -243,29 +292,33 @@ class RegisterView extends GetView<RegisterController> {
                         Center(
                           child: GestureDetector(
                             onTap: () => Get.offAllNamed(Routes.LOGIN),
-                            child: const Column(
+                            child: Column(
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
                                       "Have Any Account?",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.black,
+                                      style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black,
+                                        ),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 5,
                                     ),
                                     Text(
                                       "Sign In",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600,
-                                        color:
-                                            Color.fromARGB(255, 70, 116, 222),
+                                      style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                          color:
+                                              Color.fromARGB(255, 49, 46, 58),
+                                        ),
                                       ),
                                     ),
                                   ],
