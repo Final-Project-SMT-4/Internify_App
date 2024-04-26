@@ -1,18 +1,50 @@
+// ignore_for_file: deprecated_member_use, must_be_immutable
+
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
-import '../controllers/first_step_controller.dart';
+class FirstStepView extends StatelessWidget {
+  FirstStepView({Key? key}) : super(key: key);
 
-class FirstStepView extends GetView<FirstStepController> {
-  const FirstStepView({Key? key}) : super(key: key);
+  // Variables to track back button
+  int _backButtonPressCount = 0;
+  late Timer _timer;
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        if (_backButtonPressCount == 0) {
+          // start a timer to reset the count if not pressed again
+          _backButtonPressCount++;
+          _timer = Timer(const Duration(seconds: 1), () {
+            _backButtonPressCount = 0;
+          });
+          // Show a snackbar or toast indicating press again to exit
+          Get.snackbar(
+            "Information",
+            "Press again to exit",
+            animationDuration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 1650),
+            backgroundColor: const Color.fromARGB(255, 238, 238, 238),
+            borderWidth: 5.0,
+            snackPosition: SnackPosition.BOTTOM,
+            margin: const EdgeInsets.all(20.0),
+            icon: const Icon(CupertinoIcons.info_circle),
+          );
+          return false; // Do not exit the app yet
+        } else {
+          // Second press within the timer duration, exit the app
+          _timer.cancel(); // Cancel the timer
+          return true; // Allow the app to exit
+        }
+      },
+      child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(

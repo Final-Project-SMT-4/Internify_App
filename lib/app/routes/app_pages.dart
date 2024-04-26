@@ -41,7 +41,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FIRST_STEP,
-      page: () => const FirstStepView(),
+      page: () => FirstStepView(),
       binding: FirstStepBinding(),
     ),
     GetPage(
