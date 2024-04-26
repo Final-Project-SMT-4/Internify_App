@@ -41,7 +41,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.FIRST_STEP,
-      page: () => const FirstStepView(),
+      page: () => FirstStepView(),
       binding: FirstStepBinding(),
     ),
     GetPage(
@@ -81,7 +81,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.RESET_PASSWORD,
-      page: () => const ResetPasswordView(),
+      page: () => ResetPasswordView(),
       binding: ResetPasswordBinding(),
     ),
   ];

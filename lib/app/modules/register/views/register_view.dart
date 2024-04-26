@@ -1,3 +1,7 @@
+// ignore_for_file: deprecated_member_use, must_be_immutable
+
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -15,6 +19,10 @@ class RegisterView extends GetView<RegisterController> {
   final _formKey = GlobalKey<FormBuilderState>();
   final _obscureText = true.obs;
 
+  // Variables to track back button
+  int _backButtonPressCount = 0;
+  late Timer _timer;
+
   // Function to check if the keyboard is visible
   bool isKeyboardVisible(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -23,8 +31,34 @@ class RegisterView extends GetView<RegisterController> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        if (_backButtonPressCount == 0) {
+          // start a timer to reset the count if not pressed again
+          _backButtonPressCount++;
+          _timer = Timer(const Duration(seconds: 1), () {
+            _backButtonPressCount = 0;
+          });
+          // Show a snackbar or toast indicating press again to exit
+          Get.snackbar(
+            "Information",
+            "Press again to exit",
+            animationDuration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 1650),
+            backgroundColor: const Color.fromARGB(255, 238, 238, 238),
+            borderWidth: 5.0,
+            snackPosition: SnackPosition.BOTTOM,
+            margin: const EdgeInsets.all(20.0),
+            icon: const Icon(CupertinoIcons.info_circle),
+          );
+          return false; // Do not exit the app yet
+        } else {
+          // Second press within the timer duration, exit the app
+          _timer.cancel(); // Cancel the timer
+          return true; // Allow the app to exit
+        }
+      },
+      child: Scaffold(
         body: Center(
           child: SingleChildScrollView(
             physics: isKeyboardVisible(context)
