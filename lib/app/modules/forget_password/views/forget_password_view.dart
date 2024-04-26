@@ -49,6 +49,7 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                 ),
                 Text(
                   "Please enter your email to reset the password.",
+                  textAlign: TextAlign.justify,
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                       fontSize: 18,
@@ -142,7 +143,7 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                             ),
                           ),
                           child: Text(
-                            "Reset Password",
+                            "Send Code OTP",
                             style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
                                 fontSize: 20,

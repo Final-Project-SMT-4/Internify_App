@@ -51,6 +51,7 @@ class LoginView extends GetView<LoginController> {
                 ),
                 Text(
                   "Let's sign in and choose your internship goals.",
+                  textAlign: TextAlign.justify,
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                       fontSize: 18,

@@ -102,14 +102,17 @@ class FirstStepView extends GetView<FirstStepController> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 25.0),
+          padding: const EdgeInsets.only(bottom: 30.0),
           child: FloatingActionButton(
             backgroundColor: const Color.fromARGB(255, 70, 116, 222),
             onPressed: () => Get.offAllNamed(Routes.LOGIN),
-            child: const Icon(
-              CupertinoIcons.arrow_right,
-              color: Colors.white,
-              size: 30.0,
+            child: const Padding(
+              padding: EdgeInsets.only(bottom: 3.0),
+              child: Icon(
+                CupertinoIcons.arrow_right,
+                color: Colors.white,
+                size: 30.0,
+              ),
             ),
           ),
         ),
