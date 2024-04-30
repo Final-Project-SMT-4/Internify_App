@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../controllers/task_controller.dart';
+import '../controllers/jobs_controller.dart';
 
-class TaskView extends GetView<TaskController> {
-  const TaskView({Key? key}) : super(key: key);
+class JobsView extends GetView<JobsController> {
+  const JobsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

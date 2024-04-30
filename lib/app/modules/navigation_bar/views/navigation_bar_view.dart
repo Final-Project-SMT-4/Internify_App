@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:simag_app/app/modules/home/views/home_view.dart';
 import 'package:simag_app/app/modules/profile/views/profile_view.dart';
-import 'package:simag_app/app/modules/task/views/task_view.dart';
+import 'package:simag_app/app/modules/jobs/views/jobs_view.dart';
 import 'package:simag_app/app/modules/timeline/views/timeline_view.dart';
 import 'package:zoom_tap_animation/zoom_tap_animation.dart';
 
@@ -24,7 +24,7 @@ class NavigationBarView extends GetView<NavigationBarController> {
         children: [
           HomeView(),
           const TimelineView(),
-          const TaskView(),
+          const JobsView(),
           const ProfileView(),
         ],
       ),
@@ -39,21 +39,21 @@ class NavigationBarView extends GetView<NavigationBarController> {
               children: [
                 _bottomAppBarItem(
                   context,
-                  icon: CupertinoIcons.house,
+                  icon: CupertinoIcons.home,
                   page: 0,
                   label: "Home",
                 ),
                 _bottomAppBarItem(
                   context,
-                  icon: CupertinoIcons.map,
+                  icon: CupertinoIcons.briefcase,
                   page: 1,
-                  label: "Timeline",
+                  label: "Jobs",
                 ),
                 _bottomAppBarItem(
                   context,
-                  icon: CupertinoIcons.doc_append,
+                  icon: CupertinoIcons.map,
                   page: 2,
-                  label: "Task",
+                  label: "Timeline",
                 ),
                 _bottomAppBarItem(
                   context,

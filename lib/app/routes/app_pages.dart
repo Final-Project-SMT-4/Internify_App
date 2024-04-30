@@ -18,8 +18,8 @@ import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/reset_password/bindings/reset_password_binding.dart';
 import '../modules/reset_password/views/reset_password_view.dart';
-import '../modules/task/bindings/task_binding.dart';
-import '../modules/task/views/task_view.dart';
+import '../modules/jobs/bindings/jobs_binding.dart';
+import '../modules/jobs/views/jobs_view.dart';
 import '../modules/timeline/bindings/timeline_binding.dart';
 import '../modules/timeline/views/timeline_view.dart';
 
@@ -60,9 +60,9 @@ class AppPages {
       binding: TimelineBinding(),
     ),
     GetPage(
-      name: _Paths.TASK,
-      page: () => const TaskView(),
-      binding: TaskBinding(),
+      name: _Paths.JOBS,
+      page: () => const JobsView(),
+      binding: JobsBinding(),
     ),
     GetPage(
       name: _Paths.PROFILE,
