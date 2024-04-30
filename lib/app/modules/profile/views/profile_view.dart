@@ -30,7 +30,7 @@ class ProfileView extends GetView<ProfileController> {
               ),
               Text(
                 "Budiman",
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
               ),
               SizedBox(
                 width: 4,
@@ -107,35 +107,75 @@ class ButtonProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
-      padding: EdgeInsets.only(left: 20, top: 23, bottom: 23),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Color.fromARGB(38, 0, 0, 0),
-                blurRadius: 10,
-                spreadRadius: 0,
-                offset: Offset(0, -2))
-          ]),
-      child: Row(
-        children: [
-          Icon(
-            btnIcon,
-            color: iconColor,
-            size: 24,
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Text(
-            btnText,
-            style: TextStyle(
-                fontWeight: FontWeight.w500, fontSize: 14, color: textColor),
-          )
-        ],
+    // return Container(
+    //   margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
+    //   padding: EdgeInsets.only(left: 20, top: 23, bottom: 23),
+    //   decoration: BoxDecoration(
+    //       borderRadius: BorderRadius.circular(20),
+    //       color: Colors.white,
+    //       boxShadow: [
+    //         BoxShadow(
+    //             color: Color.fromARGB(38, 0, 0, 0),
+    //             blurRadius: 10,
+    //             spreadRadius: 0,
+    //             offset: Offset(0, -2))
+    //       ]),
+    //   child: Row(
+    //     children: [
+    //       Icon(
+    //         btnIcon,
+    //         color: iconColor,
+    //         size: 24,
+    //       ),
+    //       SizedBox(
+    //         width: 10,
+    //       ),
+    //       Text(
+    //         btnText,
+    //         style: TextStyle(
+    //             fontWeight: FontWeight.w500, fontSize: 14, color: textColor),
+    //       )
+    //     ],
+    //   ),
+    // );
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Color.fromARGB(38, 0, 0, 0),
+                  blurRadius: 10,
+                  spreadRadius: 0,
+                  offset: Offset(0, -2))
+            ]),
+        child: TextButton(
+            onPressed: () {},
+            style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.white),
+                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20))),
+                padding: MaterialStatePropertyAll(
+                    EdgeInsets.only(left: 20, top: 23, bottom: 23))),
+            child: Row(children: [
+              Icon(
+                btnIcon,
+                color: iconColor,
+                size: 24,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(
+                btnText,
+                style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: textColor),
+              )
+            ])),
       ),
     );
   }
