@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:simag_app/app/modules/profile/views/about_view.dart';
 
 import '../modules/code_otp/bindings/code_otp_binding.dart';
 import '../modules/code_otp/views/code_otp_view.dart';
@@ -83,6 +84,10 @@ class AppPages {
       name: _Paths.RESET_PASSWORD,
       page: () => ResetPasswordView(),
       binding: ResetPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT,
+      page: () => const AboutView(),
     ),
   ];
 }
