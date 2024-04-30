@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:simag_app/app/modules/home/views/home_view.dart';
@@ -23,45 +24,65 @@ class NavigationBarView extends GetView<NavigationBarController> {
         physics: const BouncingScrollPhysics(),
         children: [
           HomeView(),
-          const TimelineView(),
           const JobsView(),
+          const TimelineView(),
           const ProfileView(),
         ],
       ),
-      bottomNavigationBar: BottomAppBar(
-        notchMargin: 10.0,
-        elevation: 0.0,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Obx(
-            () => Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _bottomAppBarItem(
-                  context,
-                  icon: CupertinoIcons.home,
-                  page: 0,
-                  label: "Home",
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Color.fromARGB(38, 0, 0, 0),
+              blurRadius: 10,
+              spreadRadius: 0,
+              offset: Offset(0, -2),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+          child: BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            color: Colors.white,
+            notchMargin: 10.0,
+            elevation: 0.0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: Obx(
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _bottomAppBarItem(
+                      context,
+                      icon: CupertinoIcons.home,
+                      page: 0,
+                      label: "Home",
+                    ),
+                    _bottomAppBarItem(
+                      context,
+                      icon: CupertinoIcons.briefcase,
+                      page: 1,
+                      label: "Jobs",
+                    ),
+                    _bottomAppBarItem(
+                      context,
+                      icon: CupertinoIcons.map,
+                      page: 2,
+                      label: "Timeline",
+                    ),
+                    _bottomAppBarItem(
+                      context,
+                      icon: CupertinoIcons.person,
+                      page: 3,
+                      label: "Profile",
+                    ),
+                  ],
                 ),
-                _bottomAppBarItem(
-                  context,
-                  icon: CupertinoIcons.briefcase,
-                  page: 1,
-                  label: "Jobs",
-                ),
-                _bottomAppBarItem(
-                  context,
-                  icon: CupertinoIcons.map,
-                  page: 2,
-                  label: "Timeline",
-                ),
-                _bottomAppBarItem(
-                  context,
-                  icon: CupertinoIcons.person,
-                  page: 3,
-                  label: "Profile",
-                ),
-              ],
+              ),
             ),
           ),
         ),
