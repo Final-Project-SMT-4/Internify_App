@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/profile_controller.dart';
@@ -27,24 +29,30 @@ class ProfileView extends GetView<ProfileController> {
               radius: 48.5,
             ),
             SizedBox(
-              width: 9,
+              height: 10,
             ),
             Text(
               "Budiman",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 24.0,
+              style: GoogleFonts.poppins(
+                textStyle: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24.0,
+                ),
               ),
             ),
             SizedBox(
-              width: 5,
+              height: 4,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   "Team Leader",
-                  style: TextStyle(fontSize: 18.0),
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                      fontSize: 18.0,
+                    ),
+                  ),
                 ),
                 SizedBox(
                   width: 1,
@@ -67,32 +75,74 @@ class ProfileView extends GetView<ProfileController> {
             height: 34,
           ),
           ButtonProfile(
-            btnIcon: Icons.person,
+            btnIcon: CupertinoIcons.person_fill,
             btnText: "My Profile",
             iconColor: Color.fromARGB(255, 70, 116, 222),
             textColor: Color.fromARGB(255, 49, 46, 58),
-            routes: Routes.ABOUT,
+            onPressed: () {},
           ),
           ButtonProfile(
-            btnIcon: Icons.groups,
+            btnIcon: CupertinoIcons.group_solid,
             btnText: "My Team Profile",
             iconColor: Color.fromARGB(255, 70, 116, 222),
             textColor: Color.fromARGB(255, 49, 46, 58),
-            routes: Routes.ABOUT,
+            onPressed: () {},
           ),
           ButtonProfile(
-            btnIcon: Icons.info,
+            btnIcon: CupertinoIcons.info_circle_fill,
             btnText: "About",
             iconColor: Color.fromARGB(255, 70, 116, 222),
             textColor: Color.fromARGB(255, 49, 46, 58),
-            routes: Routes.ABOUT,
+            onPressed: () => Get.toNamed(Routes.ABOUT),
           ),
           ButtonProfile(
-            btnIcon: Icons.logout_rounded,
+            btnIcon: CupertinoIcons.square_arrow_left,
             btnText: "Logout",
             iconColor: Colors.red,
             textColor: Colors.red,
-            routes: Routes.ABOUT,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text("Logout"),
+                    content: Text("Are you sure you want to logout?"),
+                    backgroundColor: Colors.white,
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              color: Color.fromARGB(255, 70, 116, 222),
+                            ),
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Get.offAllNamed(Routes.LOGIN);
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll(Colors.red),
+                        ),
+                        child: Text(
+                          "Logout",
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
           ),
         ],
       ),
@@ -105,7 +155,7 @@ class ButtonProfile extends StatelessWidget {
   final String btnText;
   final Color iconColor;
   final Color textColor;
-  final String routes;
+  final VoidCallback onPressed;
 
   const ButtonProfile({
     super.key,
@@ -113,7 +163,7 @@ class ButtonProfile extends StatelessWidget {
     required this.btnText,
     required this.iconColor,
     required this.textColor,
-    required this.routes,
+    required this.onPressed,
   });
 
   @override
@@ -133,23 +183,24 @@ class ButtonProfile extends StatelessWidget {
               )
             ]),
         child: TextButton(
-            onPressed: () => Get.toNamed(routes),
-            style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Colors.white),
-              shape: MaterialStatePropertyAll(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              padding: MaterialStatePropertyAll(
-                EdgeInsets.only(
-                  left: 20,
-                  top: 23,
-                  bottom: 23,
-                ),
+          onPressed: onPressed,
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(Colors.white),
+            shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
               ),
             ),
-            child: Row(children: [
+            padding: MaterialStatePropertyAll(
+              EdgeInsets.only(
+                left: 20,
+                top: 23,
+                bottom: 23,
+              ),
+            ),
+          ),
+          child: Row(
+            children: [
               Icon(
                 btnIcon,
                 color: iconColor,
@@ -160,13 +211,17 @@ class ButtonProfile extends StatelessWidget {
               ),
               Text(
                 btnText,
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18.0,
-                  color: textColor,
+                style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18.0,
+                    color: textColor,
+                  ),
                 ),
-              )
-            ])),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

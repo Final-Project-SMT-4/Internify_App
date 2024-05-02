@@ -1,8 +1,9 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:simag_app/app/routes/app_pages.dart';
 
 class AboutView extends StatelessWidget {
   const AboutView({super.key});
@@ -13,7 +14,7 @@ class AboutView extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         leading: TextButton(
-          onPressed: () => Get.offAllNamed(Routes.NAVIGATION_BAR),
+          onPressed: () => Get.back(),
           style: ElevatedButton.styleFrom(
             elevation: 0.0,
             backgroundColor: Colors.transparent,

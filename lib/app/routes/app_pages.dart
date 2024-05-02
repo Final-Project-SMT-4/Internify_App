@@ -52,7 +52,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.NAVIGATION_BAR,
-      page: () => const NavigationBarView(),
+      page: () => NavigationBarView(),
       binding: NavigationBarBinding(),
     ),
     GetPage(
