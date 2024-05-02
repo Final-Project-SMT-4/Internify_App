@@ -2,7 +2,7 @@
 
 import 'package:get/get.dart';
 
-class TaskController extends GetxController {
+class JobsController extends GetxController {
   //TODO: Implement TaskController
 
   final count = 0.obs;

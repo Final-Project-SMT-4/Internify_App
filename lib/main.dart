@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simag_app/app/controllers/introduction_controller.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
+import 'package:simag_app/utils/app_theme.dart';
 import 'package:simag_app/utils/splash_screen.dart';
 
 void main() {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
             () => GetMaterialApp(
               title: "SIMAG",
               defaultTransition: Transition.native,
-              theme: ThemeData.light(),
+              theme: appTheme,
               initialRoute: introC.isSkipIntro.isTrue
                   ? introC.isAuth.isTrue
                       ? Routes.NAVIGATION_BAR

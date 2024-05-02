@@ -11,11 +11,12 @@ abstract class Routes {
   static const REGISTER = _Paths.REGISTER;
   static const NAVIGATION_BAR = _Paths.NAVIGATION_BAR;
   static const TIMELINE = _Paths.TIMELINE;
-  static const TASK = _Paths.TASK;
+  static const JOBS = _Paths.JOBS;
   static const PROFILE = _Paths.PROFILE;
   static const FORGET_PASSWORD = _Paths.FORGET_PASSWORD;
   static const CODE_OTP = _Paths.CODE_OTP;
   static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
+  static const ABOUT = _Paths.ABOUT;
 }
 
 abstract class _Paths {
@@ -26,9 +27,10 @@ abstract class _Paths {
   static const REGISTER = '/register';
   static const NAVIGATION_BAR = '/navigation-bar';
   static const TIMELINE = '/timeline';
-  static const TASK = '/task';
+  static const JOBS = '/jobs';
   static const PROFILE = '/profile';
   static const FORGET_PASSWORD = '/forget-password';
   static const CODE_OTP = '/code-otp';
   static const RESET_PASSWORD = '/reset-password';
+  static const ABOUT = '/about';
 }

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:simag_app/app/modules/profile/views/about_view.dart';
 
 import '../modules/code_otp/bindings/code_otp_binding.dart';
 import '../modules/code_otp/views/code_otp_view.dart';
@@ -18,8 +19,8 @@ import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 import '../modules/reset_password/bindings/reset_password_binding.dart';
 import '../modules/reset_password/views/reset_password_view.dart';
-import '../modules/task/bindings/task_binding.dart';
-import '../modules/task/views/task_view.dart';
+import '../modules/jobs/bindings/jobs_binding.dart';
+import '../modules/jobs/views/jobs_view.dart';
 import '../modules/timeline/bindings/timeline_binding.dart';
 import '../modules/timeline/views/timeline_view.dart';
 
@@ -51,7 +52,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.NAVIGATION_BAR,
-      page: () => const NavigationBarView(),
+      page: () => NavigationBarView(),
       binding: NavigationBarBinding(),
     ),
     GetPage(
@@ -60,9 +61,9 @@ class AppPages {
       binding: TimelineBinding(),
     ),
     GetPage(
-      name: _Paths.TASK,
-      page: () => const TaskView(),
-      binding: TaskBinding(),
+      name: _Paths.JOBS,
+      page: () => const JobsView(),
+      binding: JobsBinding(),
     ),
     GetPage(
       name: _Paths.PROFILE,
@@ -83,6 +84,10 @@ class AppPages {
       name: _Paths.RESET_PASSWORD,
       page: () => ResetPasswordView(),
       binding: ResetPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT,
+      page: () => const AboutView(),
     ),
   ];
 }
