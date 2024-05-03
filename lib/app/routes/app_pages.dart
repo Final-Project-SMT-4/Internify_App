@@ -1,7 +1,4 @@
 import 'package:get/get.dart';
-import 'package:simag_app/app/modules/jobs/views/about_jobs_view.dart';
-import 'package:simag_app/app/modules/jobs/views/page1_about.dart';
-import 'package:simag_app/app/modules/jobs/views/page2_about.dart';
 
 import '../modules/code_otp/bindings/code_otp_binding.dart';
 import '../modules/code_otp/views/code_otp_view.dart';
@@ -54,7 +51,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.NAVIGATION_BAR,
-      page: () => const NavigationBarView(),
+      page: () => NavigationBarView(),
       binding: NavigationBarBinding(),
     ),
     GetPage(
@@ -99,6 +96,10 @@ class AppPages {
       name: _Paths.RESET_PASSWORD,
       page: () => ResetPasswordView(),
       binding: ResetPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT,
+      page: () => const AboutView(),
     ),
   ];
 }
