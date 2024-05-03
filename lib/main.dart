@@ -39,6 +39,14 @@ class MyApp extends StatelessWidget {
               getPages: AppPages.routes,
             ),
           );
+
+          // return GetMaterialApp(
+          //   title: "SIMAG",
+          //   defaultTransition: Transition.native,
+          //   theme: appTheme,
+          //   initialRoute: Routes.ABOUT_JOBS,
+          //   getPages: AppPages.routes,
+          // );
         }
 
         return SplashScreen();

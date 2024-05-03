@@ -1,4 +1,7 @@
 import 'package:get/get.dart';
+import 'package:simag_app/app/modules/jobs/views/about_jobs_view.dart';
+import 'package:simag_app/app/modules/jobs/views/page1_about.dart';
+import 'package:simag_app/app/modules/jobs/views/page2_about.dart';
 
 import '../modules/code_otp/bindings/code_otp_binding.dart';
 import '../modules/code_otp/views/code_otp_view.dart';
@@ -63,6 +66,19 @@ class AppPages {
       name: _Paths.JOBS,
       page: () => const JobsView(),
       binding: JobsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT_JOBS,
+      page: () => const AboutJobs(),
+      binding: JobsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT_JOBS_PAGE1,
+      page: () => const Page1About(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT_JOBS_PAGE2,
+      page: () => const Page2About(),
     ),
     GetPage(
       name: _Paths.PROFILE,

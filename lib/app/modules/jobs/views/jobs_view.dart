@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/jobs_controller.dart';
 
@@ -48,9 +49,11 @@ class JobsView extends GetView<JobsController> {
               ),
             ],
           ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         ),
         body: ListView.builder(
-          itemCount: 15,
+          itemCount: 1,
           itemBuilder: (context, index) => Container(
             margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
             padding: EdgeInsets.all(20),
@@ -109,7 +112,7 @@ class JobsView extends GetView<JobsController> {
                             Color.fromARGB(51, 246, 127, 202),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () => Get.toNamed(Routes.ABOUT_JOBS),
                         child: Text("About"),
                       ),
                     ),
