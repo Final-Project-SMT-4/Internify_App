@@ -93,7 +93,7 @@ class ProfileView extends GetView<ProfileController> {
             btnText: "About",
             iconColor: Color.fromARGB(255, 70, 116, 222),
             textColor: Color.fromARGB(255, 49, 46, 58),
-            onPressed: () => Get.toNamed(Routes.ABOUT),
+            onPressed: () => Get.toNamed(Routes.ABOUT_PROFILE),
           ),
           ButtonProfile(
             btnIcon: CupertinoIcons.square_arrow_left,
