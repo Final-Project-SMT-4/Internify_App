@@ -3,6 +3,7 @@ import 'package:simag_app/app/modules/jobs/views/about_jobs_view.dart';
 import 'package:simag_app/app/modules/jobs/views/page1_about.dart';
 import 'package:simag_app/app/modules/jobs/views/page2_about.dart';
 import 'package:simag_app/app/modules/profile/views/about_view.dart';
+import 'package:simag_app/app/modules/profile/views/my_profile_view.dart';
 
 import '../modules/code_otp/bindings/code_otp_binding.dart';
 import '../modules/code_otp/views/code_otp_view.dart';
@@ -104,6 +105,10 @@ class AppPages {
     GetPage(
       name: _Paths.ABOUT_PROFILE,
       page: () => const AboutView(),
+    ),
+    GetPage(
+      name: _Paths.MY_PROFILE,
+      page: () => const MyProfileView(),
     ),
   ];
 }
