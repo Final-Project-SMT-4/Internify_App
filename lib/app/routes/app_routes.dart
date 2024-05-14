@@ -21,6 +21,8 @@ abstract class Routes {
   static const RESET_PASSWORD = _Paths.RESET_PASSWORD;
   static const ABOUT_PROFILE = _Paths.ABOUT_PROFILE;
   static const MY_PROFILE = _Paths.MY_PROFILE;
+  static const MY_TEAM = _Paths.MY_TEAM;
+  static const MEMBER_TEAM = _Paths.MEMBER_TEAM;
 }
 
 abstract class _Paths {
@@ -41,4 +43,6 @@ abstract class _Paths {
   static const ABOUT_JOBS_PAGE2 = '/about-jobs-page2';
   static const ABOUT_PROFILE = '/about-profile';
   static const MY_PROFILE = '/my-profile';
+  static const MY_TEAM = '/my-team';
+  static const MEMBER_TEAM = '/member-team';
 }

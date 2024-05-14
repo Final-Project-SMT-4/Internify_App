@@ -56,7 +56,7 @@ class _MyProfileViewState extends State<MyProfileView> {
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +68,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Email :",
+                        "Fullname :",
                         textAlign: TextAlign.center,
                         style: GoogleFonts.poppins(
                           textStyle: const TextStyle(

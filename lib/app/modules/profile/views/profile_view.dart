@@ -86,7 +86,7 @@ class ProfileView extends GetView<ProfileController> {
             btnText: "My Team Profile",
             iconColor: Color.fromARGB(255, 70, 116, 222),
             textColor: Color.fromARGB(255, 49, 46, 58),
-            onPressed: () {},
+            onPressed: () => Get.toNamed(Routes.MY_TEAM),
           ),
           ButtonProfile(
             btnIcon: CupertinoIcons.info_circle_fill,
