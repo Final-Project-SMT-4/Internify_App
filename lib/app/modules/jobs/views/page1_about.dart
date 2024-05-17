@@ -37,15 +37,22 @@ class Page1About extends StatelessWidget {
             ),
             Text(
                 "Location : Komplek Pertokoan Sawojajar Jalan Danau Toba Blok C22, Sawojajar, Kec. Kedungkandang, Kota Malang, Jawa Timur 56138"),
-            // GoogleMap(
-            //   initialCameraPosition:
-            //       CameraPosition(target: _pGooglePlex, zoom: 13),
-            //   markers: {
-            //     Marker(
-            //         markerId: MarkerId("Current Location"),
-            //         icon: BitmapDescriptor.defaultMarker,
-            //         position: _pGooglePlex)
-            //   },
+            SizedBox(
+              height: 10,
+            ),
+            // SizedBox(
+            //   height: 250,
+            //   child: GoogleMap(
+            //     mapType: MapType.normal,
+            //     initialCameraPosition:
+            //         CameraPosition(target: _pGooglePlex, zoom: 13),
+            //     markers: {
+            //       Marker(
+            //           markerId: MarkerId("Current Location"),
+            //           icon: BitmapDescriptor.defaultMarker,
+            //           position: _pGooglePlex)
+            //     },
+            //   ),
             // ),
             SizedBox(
               height: 17,
@@ -78,6 +85,9 @@ class Page1About extends StatelessWidget {
             _listFacilities(
               title: "Mondays-Fridays",
             ),
+            SizedBox(
+              height: 75,
+            )
           ],
         ),
       ),

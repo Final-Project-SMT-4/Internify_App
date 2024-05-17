@@ -2,18 +2,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:simag_app/app/routes/app_pages.dart';
-import '../controllers/jobs_controller.dart';
-import '../views/page1_about.dart';
-import '../views/page2_about.dart';
+import 'package:simag_app/app/modules/jobs/controllers/jobs_controller.dart';
 
-class AboutJobs extends GetView<JobsController> {
-  const AboutJobs({super.key});
+class ApplyJobs extends GetView<JobsController> {
+  const ApplyJobs({super.key});
 
   @override
   Widget build(BuildContext context) {
-    controller.onInit();
-
     return Scaffold(
       body: Stack(
         children: [
@@ -62,33 +57,32 @@ class AboutJobs extends GetView<JobsController> {
                   )
                 ],
               ),
-              Obx(() => Row(
-                    children: [
-                      _navAbout(
-                        context,
-                        title: "Description",
-                        margin: EdgeInsets.fromLTRB(15, 15, 7, 15),
-                        onTap: 0,
-                      ),
-                      _navAbout(
-                        context,
-                        title: "Company",
-                        margin: EdgeInsets.fromLTRB(7, 15, 15, 15),
-                        onTap: 1,
-                      )
-                    ],
-                  )),
-              Expanded(
-                child: PageView(
-                  controller: controller.pageController,
-                  onPageChanged: (index) =>
-                      controller.selectedIndex.value = index,
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Page1About(),
-                    Page2About(),
+                    SizedBox(
+                      height: 17,
+                    ),
+                    Text(
+                      "Upload Internship Proposal",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Add your Proposal to apply for a job",
+                    ),
+                    SizedBox(
+                      height: 17,
+                    ),
+                    
                   ],
                 ),
-              ),
+              )
             ],
           ),
           Container(
@@ -107,7 +101,7 @@ class AboutJobs extends GetView<JobsController> {
               color: Colors.white,
               height: 78,
               child: TextButton(
-                onPressed: () => Get.toNamed(Routes.APPLY_JOBS),
+                onPressed: () {},
                 style: ButtonStyle(
                   shape: MaterialStatePropertyAll(
                     RoundedRectangleBorder(
@@ -126,40 +120,6 @@ class AboutJobs extends GetView<JobsController> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _navAbout(
-    BuildContext context, {
-    required EdgeInsetsGeometry margin,
-    required String title,
-    required int onTap,
-  }) {
-    return Expanded(
-      child: Container(
-        margin: margin,
-        child: TextButton(
-          style: ButtonStyle(
-            shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            foregroundColor: MaterialStatePropertyAll(
-              controller.selectedIndex.value == onTap
-                  ? Colors.white
-                  : Color.fromARGB(255, 70, 116, 222),
-            ),
-            backgroundColor: MaterialStatePropertyAll(
-              controller.selectedIndex.value == onTap
-                  ? Color.fromARGB(255, 72, 71, 156)
-                  : Color.fromARGB(51, 70, 116, 222),
-            ),
-          ),
-          onPressed: () => controller.setPage(onTap),
-          child: Text(title),
-        ),
       ),
     );
   }

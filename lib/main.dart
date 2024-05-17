@@ -26,27 +26,27 @@ class MyApp extends StatelessWidget {
       future: _delayedFuture(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return Obx(
-            () => GetMaterialApp(
-              title: "SIMAG",
-              defaultTransition: Transition.native,
-              theme: appTheme,
-              initialRoute: introC.isSkipIntro.isTrue
-                  ? introC.isAuth.isTrue
-                      ? Routes.NAVIGATION_BAR
-                      : Routes.LOGIN
-                  : Routes.FIRST_STEP,
-              getPages: AppPages.routes,
-            ),
-          );
-
-          // return GetMaterialApp(
-          //   title: "SIMAG",
-          //   defaultTransition: Transition.native,
-          //   theme: appTheme,
-          //   initialRoute: Routes.ABOUT_JOBS,
-          //   getPages: AppPages.routes,
+          // return Obx(
+          //   () => GetMaterialApp(
+          //     title: "SIMAG",
+          //     defaultTransition: Transition.native,
+          //     theme: appTheme,
+          //     initialRoute: introC.isSkipIntro.isTrue
+          //         ? introC.isAuth.isTrue
+          //             ? Routes.NAVIGATION_BAR
+          //             : Routes.LOGIN
+          //         : Routes.FIRST_STEP,
+          //     getPages: AppPages.routes,
+          //   ),
           // );
+
+          return GetMaterialApp(
+            title: "SIMAG",
+            defaultTransition: Transition.native,
+            theme: appTheme,
+            initialRoute: Routes.APPLY_JOBS,
+            getPages: AppPages.routes,
+          );
         }
 
         return SplashScreen();

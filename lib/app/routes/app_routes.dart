@@ -15,6 +15,7 @@ abstract class Routes {
   static const ABOUT_JOBS = _Paths.ABOUT_JOBS;
   static const ABOUT_JOBS_PAGE1 = _Paths.ABOUT_JOBS_PAGE1;
   static const ABOUT_JOBS_PAGE2 = _Paths.ABOUT_JOBS_PAGE2;
+  static const APPLY_JOBS = _Paths.APPLY_JOBS;
   static const PROFILE = _Paths.PROFILE;
   static const FORGET_PASSWORD = _Paths.FORGET_PASSWORD;
   static const CODE_OTP = _Paths.CODE_OTP;
@@ -41,6 +42,7 @@ abstract class _Paths {
   static const ABOUT_JOBS = '/about-jobs';
   static const ABOUT_JOBS_PAGE1 = '/about-jobs-page1';
   static const ABOUT_JOBS_PAGE2 = '/about-jobs-page2';
+  static const APPLY_JOBS = '/apply-jobs';
   static const ABOUT_PROFILE = '/about-profile';
   static const MY_PROFILE = '/my-profile';
   static const MY_TEAM = '/my-team';

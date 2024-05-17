@@ -65,6 +65,9 @@ class Page2About extends StatelessWidget {
               desc:
                   "Search technology, Web computing, Software and Online advertising",
             ),
+            SizedBox(
+              height: 75,
+            )
           ],
         ),
       ),
