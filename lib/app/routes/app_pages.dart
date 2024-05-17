@@ -1,5 +1,13 @@
 import 'package:get/get.dart';
+import 'package:simag_app/app/modules/jobs/views/about_jobs_view.dart';
+import 'package:simag_app/app/modules/jobs/views/apply_jobs_view.dart';
+import 'package:simag_app/app/modules/jobs/views/page1_about.dart';
+import 'package:simag_app/app/modules/jobs/views/page2_about.dart';
 import 'package:simag_app/app/modules/profile/views/about_view.dart';
+import 'package:simag_app/app/modules/profile/views/member_team_view.dart';
+import 'package:simag_app/app/modules/profile/views/my_profile_view.dart';
+import 'package:simag_app/app/modules/profile/views/my_team_view.dart';
+import 'package:simag_app/utils/splash_screen.dart';
 
 import '../modules/code_otp/bindings/code_otp_binding.dart';
 import '../modules/code_otp/views/code_otp_view.dart';
@@ -30,6 +38,10 @@ class AppPages {
   AppPages._();
 
   static final routes = [
+     GetPage(
+      name: _Paths.SPLASH_SCREEN,
+      page: () => const SplashScreen(),
+    ),
     GetPage(
       name: _Paths.HOME,
       page: () => HomeView(),
@@ -66,6 +78,23 @@ class AppPages {
       binding: JobsBinding(),
     ),
     GetPage(
+      name: _Paths.ABOUT_JOBS,
+      page: () => const AboutJobs(),
+      binding: JobsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT_JOBS_PAGE1,
+      page: () => const Page1About(),
+    ),
+    GetPage(
+      name: _Paths.ABOUT_JOBS_PAGE2,
+      page: () => const Page2About(),
+    ),
+    GetPage(
+      name: _Paths.APPLY_JOBS,
+      page: () => const ApplyJobs(),
+    ),
+    GetPage(
       name: _Paths.PROFILE,
       page: () => const ProfileView(),
       binding: ProfileBinding(),
@@ -86,8 +115,20 @@ class AppPages {
       binding: ResetPasswordBinding(),
     ),
     GetPage(
-      name: _Paths.ABOUT,
+      name: _Paths.ABOUT_PROFILE,
       page: () => const AboutView(),
+    ),
+    GetPage(
+      name: _Paths.MY_PROFILE,
+      page: () => const MyProfileView(),
+    ),
+    GetPage(
+      name: _Paths.MY_TEAM,
+      page: () => const MyTeamView(),
+    ),
+     GetPage(
+      name: _Paths.MEMBER_TEAM,
+      page: () => const MemberTeamView(memberCount: 0),
     ),
   ];
 }

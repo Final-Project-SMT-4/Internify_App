@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:simag_app/app/data/db_provider.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/profile_controller.dart';
@@ -79,21 +80,21 @@ class ProfileView extends GetView<ProfileController> {
             btnText: "My Profile",
             iconColor: Color.fromARGB(255, 70, 116, 222),
             textColor: Color.fromARGB(255, 49, 46, 58),
-            onPressed: () {},
+            onPressed: () => Get.toNamed(Routes.MY_PROFILE),
           ),
           ButtonProfile(
             btnIcon: CupertinoIcons.group_solid,
             btnText: "My Team Profile",
             iconColor: Color.fromARGB(255, 70, 116, 222),
             textColor: Color.fromARGB(255, 49, 46, 58),
-            onPressed: () {},
+            onPressed: () => Get.toNamed(Routes.MY_TEAM),
           ),
           ButtonProfile(
             btnIcon: CupertinoIcons.info_circle_fill,
             btnText: "About",
             iconColor: Color.fromARGB(255, 70, 116, 222),
             textColor: Color.fromARGB(255, 49, 46, 58),
-            onPressed: () => Get.toNamed(Routes.ABOUT),
+            onPressed: () => Get.toNamed(Routes.ABOUT_PROFILE),
           ),
           ButtonProfile(
             btnIcon: CupertinoIcons.square_arrow_left,
@@ -124,6 +125,7 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                       TextButton(
                         onPressed: () {
+                          DatabaseProvider().logout();
                           Get.offAllNamed(Routes.LOGIN);
                         },
                         style: ButtonStyle(
