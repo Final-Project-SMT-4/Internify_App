@@ -7,6 +7,7 @@ import 'package:simag_app/app/modules/profile/views/about_view.dart';
 import 'package:simag_app/app/modules/profile/views/member_team_view.dart';
 import 'package:simag_app/app/modules/profile/views/my_profile_view.dart';
 import 'package:simag_app/app/modules/profile/views/my_team_view.dart';
+import 'package:simag_app/utils/splash_screen.dart';
 
 import '../modules/code_otp/bindings/code_otp_binding.dart';
 import '../modules/code_otp/views/code_otp_view.dart';
@@ -37,6 +38,10 @@ class AppPages {
   AppPages._();
 
   static final routes = [
+     GetPage(
+      name: _Paths.SPLASH_SCREEN,
+      page: () => const SplashScreen(),
+    ),
     GetPage(
       name: _Paths.HOME,
       page: () => HomeView(),

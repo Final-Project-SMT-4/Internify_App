@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:simag_app/app/data/db_provider.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/profile_controller.dart';
@@ -124,6 +125,7 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                       TextButton(
                         onPressed: () {
+                          DatabaseProvider().logout();
                           Get.offAllNamed(Routes.LOGIN);
                         },
                         style: ButtonStyle(

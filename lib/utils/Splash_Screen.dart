@@ -1,10 +1,24 @@
-// ignore_for_file: use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:simag_app/app/data/db_provider.dart';
+import 'package:simag_app/app/routes/app_pages.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    navigate();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,4 +48,16 @@ class SplashScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void navigate() {
+  Future.delayed(const Duration(milliseconds: 1750), () {
+    DatabaseProvider().getToken().then((value) {
+      if (value == '') {
+        Get.offAllNamed(Routes.FIRST_STEP);
+      } else {
+        Get.offAllNamed(Routes.NAVIGATION_BAR);
+      }
+    });
+  });
 }
