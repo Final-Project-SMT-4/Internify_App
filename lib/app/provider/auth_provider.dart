@@ -15,9 +15,11 @@ class AuthenticationProvider extends ChangeNotifier {
 
   bool _isLoading = false;
   String _resMessage = "";
+  int _responseData = 0;
 
   bool get isLoading => _isLoading;
   String get resMessage => _resMessage;
+  int get responseData => _responseData;
 
   void loginUser({
     required String email,
@@ -169,13 +171,15 @@ class AuthenticationProvider extends ChangeNotifier {
 
         print(res);
 
+        int idUser = res["response"]["id_user"];
+
         _isLoading = true;
         _resMessage = "Code OTP Successfully Verified";
 
         notifyListeners();
 
-        // Navigate To LOGIN
-        Get.offAllNamed(Routes.RESET_PASSWORD);
+        // Send Data ID User Into Reset Password
+        Get.toNamed(Routes.RESET_PASSWORD, arguments: {'id_user': idUser});
       } else {
         final res = json.decode(req.body);
 
@@ -225,6 +229,8 @@ class AuthenticationProvider extends ChangeNotifier {
         final res = json.decode(req.body);
 
         print(res);
+
+        _responseData = res["response"]["id_user"];
 
         _isLoading = true;
         _resMessage = "We Have Resend OTP Code, Please Check Your Email";
