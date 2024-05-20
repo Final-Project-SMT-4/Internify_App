@@ -1,5 +1,8 @@
 // ignore_for_file: unnecessary_overrides
 
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,5 +28,24 @@ class JobsController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  void pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],
+    );
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
+
+      print(file.name);
+      print(file.bytes);
+      print(file.size);
+      print(file.extension);
+      print(file.path);
+    } else {
+      print("Batal Pick File");
+    }
   }
 }

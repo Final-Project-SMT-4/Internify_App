@@ -3,12 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simag_app/app/modules/jobs/controllers/jobs_controller.dart';
+import 'package:file_picker/file_picker.dart';
 
 class ApplyJobs extends GetView<JobsController> {
   const ApplyJobs({super.key});
 
   @override
   Widget build(BuildContext context) {
+    JobsController controller = Get.put(JobsController());
+
     return Scaffold(
       body: Stack(
         children: [
@@ -79,7 +82,32 @@ class ApplyJobs extends GetView<JobsController> {
                     SizedBox(
                       height: 17,
                     ),
-                    
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: () => controller.pickFile(),
+                        style: OutlinedButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 32.0),
+                          side: BorderSide(color: Colors.grey.shade400),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.upload_file,
+                                color: Colors.grey.shade700),
+                            SizedBox(width: 8.0),
+                            Text(
+                              'Upload Proposal',
+                              style: TextStyle(color: Colors.grey.shade700),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               )
