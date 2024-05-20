@@ -30,6 +30,9 @@ class CodeOtpView extends GetView<CodeOtpController> {
 
   @override
   Widget build(BuildContext context) {
+     final Map<String, dynamic> arguments = Get.arguments as Map<String, dynamic>;
+    final String email = arguments['email'];
+
     return WillPopScope(
       onWillPop: () async {
         if (_backButtonPressCount == 0) {
@@ -97,7 +100,7 @@ class CodeOtpView extends GetView<CodeOtpController> {
                         ),
                         children: [
                           TextSpan(
-                            text: "user@gmail.com",
+                            text: email,
                             style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
                                 fontSize: 15,
@@ -108,7 +111,7 @@ class CodeOtpView extends GetView<CodeOtpController> {
                           ),
                           TextSpan(
                             text:
-                                " enter 5 digit code that mentioned in the email.",
+                                " enter 4 digit code that mentioned in the email.",
                             style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
                                 fontSize: 15,
@@ -127,7 +130,7 @@ class CodeOtpView extends GetView<CodeOtpController> {
                       key: _formKey,
                       child: PinCodeTextField(
                         appContext: context,
-                        length: 5,
+                        length: 4,
                         pastedTextStyle: const TextStyle(
                           color: Color.fromARGB(255, 100, 141, 219),
                           fontWeight: FontWeight.bold,

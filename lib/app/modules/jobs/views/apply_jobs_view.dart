@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simag_app/app/modules/jobs/controllers/jobs_controller.dart';
-import 'package:file_picker/file_picker.dart';
 
 class ApplyJobs extends GetView<JobsController> {
   const ApplyJobs({super.key});
