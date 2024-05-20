@@ -192,7 +192,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                         ),
                         Obx(
                           () => FormBuilderTextField(
-                            name: 'password',
+                            name: 'confirmPassword',
                             keyboardType: TextInputType.visiblePassword,
                             style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
@@ -257,7 +257,9 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                           width: double.infinity,
                           height: 50.0,
                           child: ElevatedButton(
-                            onPressed: () => Get.offAllNamed(Routes.LOGIN),
+                            onPressed: () {
+                              
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
                                   const Color.fromARGB(255, 70, 116, 222),

@@ -9,7 +9,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:simag_app/app/routes/app_pages.dart';
+import 'package:provider/provider.dart';
+import 'package:simag_app/app/provider/auth_provider.dart';
 
 import '../controllers/code_otp_controller.dart';
 
@@ -22,6 +23,9 @@ class CodeOtpView extends GetView<CodeOtpController> {
   int _backButtonPressCount = 0;
   late Timer _timer;
 
+  // Variable to store the OTP code
+  String _otpCode = '';
+
   // Function to check if the keyboard is visible
   bool isKeyboardVisible(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
@@ -30,7 +34,8 @@ class CodeOtpView extends GetView<CodeOtpController> {
 
   @override
   Widget build(BuildContext context) {
-     final Map<String, dynamic> arguments = Get.arguments as Map<String, dynamic>;
+    final Map<String, dynamic> arguments =
+        Get.arguments as Map<String, dynamic>;
     final String email = arguments['email'];
 
     return WillPopScope(
@@ -147,7 +152,8 @@ class CodeOtpView extends GetView<CodeOtpController> {
                           fieldHeight: 55,
                           fieldWidth: 50,
                           activeFillColor: Colors.white,
-                          inactiveColor: const Color.fromARGB(255, 225, 225, 225),
+                          inactiveColor:
+                              const Color.fromARGB(255, 225, 225, 225),
                           activeColor: const Color.fromARGB(255, 100, 141, 219),
                         ),
                         cursorColor: Colors.black,
@@ -160,6 +166,13 @@ class CodeOtpView extends GetView<CodeOtpController> {
                             height: 1.6,
                           ),
                         ),
+                        onCompleted: (value) {
+                          _otpCode = value;
+
+                          Provider.of<AuthenticationProvider>(context,
+                                  listen: false)
+                              .codeOTP(otp: value.toString().trim());
+                        },
                       ),
                     ),
                     const SizedBox(
@@ -168,64 +181,136 @@ class CodeOtpView extends GetView<CodeOtpController> {
                     SizedBox(
                       width: double.infinity,
                       height: 50,
-                      child: ElevatedButton(
-                        onPressed: () => Get.offAllNamed(Routes.RESET_PASSWORD),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 70, 116, 222),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          "Verify Code",
-                          style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 255, 255, 255),
+                      child: Consumer<AuthenticationProvider>(
+                          builder: (context, auth, child) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (auth.resMessage != '') {
+                            Get.snackbar(
+                              "Information",
+                              auth.resMessage,
+                              animationDuration:
+                                  const Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 1650),
+                              backgroundColor:
+                                  const Color.fromARGB(255, 238, 238, 238),
+                              borderWidth: 5.0,
+                              snackPosition: SnackPosition.BOTTOM,
+                              margin: const EdgeInsets.all(20.0),
+                              icon: const Icon(
+                                CupertinoIcons.checkmark_alt_circle,
+                              ),
+                            );
+
+                            auth.clear();
+                          }
+                        });
+                        return ElevatedButton(
+                          onPressed: auth.isLoading
+                              ? null
+                              : () {
+                                  if (_otpCode != '') {
+                                    auth.codeOTP(
+                                        otp: _otpCode.toString().trim());
+                                  } else {
+                                    Get.snackbar(
+                                      "Information",
+                                      "Code OTP Cannot Empty",
+                                      animationDuration:
+                                          const Duration(milliseconds: 300),
+                                      duration:
+                                          const Duration(milliseconds: 1650),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 238, 238, 238),
+                                      borderWidth: 5.0,
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      margin: const EdgeInsets.all(20.0),
+                                      icon: const Icon(
+                                        CupertinoIcons.checkmark_alt_circle,
+                                      ),
+                                    );
+                                  }
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: auth.isLoading
+                                ? Colors.grey
+                                : const Color.fromARGB(255, 70, 116, 222),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                        ),
-                      ),
+                          child: auth.isLoading
+                              ? Text(
+                                  "Loading ...",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                )
+                              : Text(
+                                  "Verify Code",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color.fromARGB(255, 255, 255, 255),
+                                    ),
+                                  ),
+                                ),
+                        );
+                      }),
                     ),
                     const SizedBox(
                       height: 20.0,
                     ),
                     Center(
-                      child: GestureDetector(
-                        onTap: () => Get.offAllNamed(Routes.REGISTER),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Haven’t got the email?",
-                                  style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black,
+                      child: Obx(
+                        () => GestureDetector(
+                          onTap: controller.canResendEmail.value
+                              ? () {
+                                  controller.resendEmail();
+
+                                  Provider.of<AuthenticationProvider>(context,
+                                          listen: false)
+                                      .resendCodeOTP(email: email);
+                                }
+                              : null,
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Haven’t got the email?",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Resend Email",
-                                  style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color.fromARGB(255, 49, 46, 58),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    controller.canResendEmail.value
+                                        ? "Resend Email"
+                                        : "Resend in 0.${controller.resendCountDown.value}",
+                                    style: GoogleFonts.poppins(
+                                      textStyle: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color.fromARGB(255, 49, 46, 58),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
