@@ -9,6 +9,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:simag_app/app/provider/auth_provider.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/login_controller.dart';
@@ -246,7 +248,8 @@ class LoginView extends GetView<LoginController> {
                               child: Align(
                                 alignment: Alignment.centerRight,
                                 child: GestureDetector(
-                                  onTap: () => Get.offAllNamed(Routes.FORGET_PASSWORD),
+                                  onTap: () =>
+                                      Get.offAllNamed(Routes.FORGET_PASSWORD),
                                   child: Text(
                                     "Forget Password ?",
                                     style: GoogleFonts.poppins(
@@ -269,27 +272,81 @@ class LoginView extends GetView<LoginController> {
                         SizedBox(
                           width: double.infinity,
                           height: 50,
-                          child: ElevatedButton(
-                            onPressed: () =>
-                                Get.offAllNamed(Routes.NAVIGATION_BAR),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 70, 116, 222),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: Text(
-                              "Sign In",
-                              style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromARGB(255, 255, 255, 255),
+                          child: Consumer<AuthenticationProvider>(
+                              builder: (context, auth, child) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              if (auth.resMessage != '') {
+                                Get.snackbar(
+                                  "Information",
+                                  auth.resMessage,
+                                  animationDuration:
+                                      const Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 1650),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 238, 238, 238),
+                                  borderWidth: 5.0,
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  margin: const EdgeInsets.all(20.0),
+                                  icon: const Icon(
+                                    CupertinoIcons.checkmark_alt_circle,
+                                  ),
+                                );
+
+                                auth.clear();
+                              }
+                            });
+
+                            return ElevatedButton(
+                              onPressed: auth.isLoading
+                                  ? null
+                                  : () {
+                                      if (_formKey.currentState!.validate()) {
+                                        _formKey.currentState!.save();
+                                        final formData =
+                                            _formKey.currentState!.value;
+
+                                        final String? email = formData['email'];
+                                        final String? password =
+                                            formData['password'];
+
+                                        auth.loginUser(
+                                          email: email.toString().trim(),
+                                          password: password.toString().trim(),
+                                        );
+                                      }
+                                    },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: auth.isLoading
+                                    ? Colors.grey
+                                    : const Color.fromARGB(255, 70, 116, 222),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                            ),
-                          ),
+                              child: auth.isLoading
+                                  ? Text(
+                                      "Loading ...",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    )
+                                  : Text(
+                                      "Sign In",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                        ),
+                                      ),
+                                    ),
+                            );
+                          }),
                         ),
                         const SizedBox(
                           height: 20,
