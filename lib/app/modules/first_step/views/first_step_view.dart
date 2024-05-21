@@ -139,7 +139,7 @@ class FirstStepView extends StatelessWidget {
             backgroundColor: const Color.fromARGB(255, 70, 116, 222),
             onPressed: () => Get.offAllNamed(Routes.LOGIN),
             child: const Padding(
-              padding: EdgeInsets.only(bottom: 3.0),
+              padding: EdgeInsets.only(top: 3.0),
               child: Icon(
                 CupertinoIcons.arrow_right,
                 color: Colors.white,
