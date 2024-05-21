@@ -9,6 +9,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:simag_app/app/provider/auth_provider.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/forget_password_controller.dart';
@@ -18,7 +20,7 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
 
   final _formKey = GlobalKey<FormBuilderState>();
 
-    // Variables to track back button
+  // Variables to track back button
   int _backButtonPressCount = 0;
   late Timer _timer;
 
@@ -166,26 +168,76 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                         SizedBox(
                           width: double.infinity,
                           height: 50,
-                          child: ElevatedButton(
-                            onPressed: () => Get.offAllNamed(Routes.CODE_OTP),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 70, 116, 222),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: Text(
-                              "Send Code OTP",
-                              style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromARGB(255, 255, 255, 255),
+                          child: Consumer<AuthenticationProvider>(
+                              builder: (context, auth, child) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              if (auth.resMessage != '') {
+                                Get.snackbar(
+                                  "Information",
+                                  auth.resMessage,
+                                  animationDuration:
+                                      const Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 1650),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 238, 238, 238),
+                                  borderWidth: 5.0,
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  margin: const EdgeInsets.all(20.0),
+                                  icon: const Icon(
+                                    CupertinoIcons.checkmark_alt_circle,
+                                  ),
+                                );
+
+                                auth.clear();
+                              }
+                            });
+                            return ElevatedButton(
+                              onPressed: auth.isLoading
+                                  ? null
+                                  : () {
+                                      if (_formKey.currentState!.validate()) {
+                                        _formKey.currentState!.save();
+                                        final formData =
+                                            _formKey.currentState!.value;
+
+                                        final String? email = formData['email'];
+
+                                        auth.forgetPassword(
+                                            email: email.toString().trim());
+                                      }
+                                    },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: auth.isLoading
+                                    ? Colors.grey
+                                    : const Color.fromARGB(255, 70, 116, 222),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                            ),
-                          ),
+                              child: auth.isLoading
+                                  ? Text(
+                                      "Loading ...",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    )
+                                  : Text(
+                                      "Send Code OTP",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                        ),
+                                      ),
+                                    ),
+                            );
+                          }),
                         ),
                         const SizedBox(
                           height: 20.0,
@@ -217,7 +269,8 @@ class ForgetPasswordView extends GetView<ForgetPasswordController> {
                                         textStyle: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600,
-                                          color: Color.fromARGB(255, 49, 46, 58),
+                                          color:
+                                              Color.fromARGB(255, 49, 46, 58),
                                         ),
                                       ),
                                     ),

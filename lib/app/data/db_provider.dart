@@ -60,7 +60,5 @@ class DatabaseProvider extends ChangeNotifier {
     final value = await _pref;
 
     value.clear();
-
-    
   }
 }
