@@ -233,7 +233,7 @@ class LoginView extends GetView<LoginController> {
                             ),
                             obscureText: _obscureText.value,
                             validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.minLength(8),
+                              FormBuilderValidators.equalLength(8),
                               FormBuilderValidators.required(),
                             ]),
                           ),

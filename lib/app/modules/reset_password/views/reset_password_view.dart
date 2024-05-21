@@ -9,8 +9,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:simag_app/app/provider/auth_provider.dart';
+import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/reset_password_controller.dart';
 
@@ -33,10 +32,6 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> arguments =
-        Get.arguments as Map<String, dynamic>;
-    final int idUser = arguments['id_user'];
-
     return WillPopScope(
       onWillPop: () async {
         if (_backButtonPressCount == 0) {
@@ -175,7 +170,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                             ),
                             obscureText: _obscureNew.value,
                             validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.minLength(8),
+                              FormBuilderValidators.equalLength(8),
                               FormBuilderValidators.required(),
                             ]),
                           ),
@@ -197,7 +192,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                         ),
                         Obx(
                           () => FormBuilderTextField(
-                            name: 'confirmPassword',
+                            name: 'password',
                             keyboardType: TextInputType.visiblePassword,
                             style: GoogleFonts.poppins(
                               textStyle: const TextStyle(
@@ -250,7 +245,7 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                             ),
                             obscureText: _obscureRe_enter.value,
                             validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.minLength(8),
+                              FormBuilderValidators.equalLength(8),
                               FormBuilderValidators.required(),
                             ]),
                           ),
@@ -261,112 +256,26 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                         SizedBox(
                           width: double.infinity,
                           height: 50.0,
-                          child: Consumer<AuthenticationProvider>(
-                              builder: (context, auth, child) {
-                            WidgetsBinding.instance.addPostFrameCallback((_) {
-                              if (auth.resMessage != '') {
-                                Get.snackbar(
-                                  "Information",
-                                  auth.resMessage,
-                                  animationDuration:
-                                      const Duration(milliseconds: 300),
-                                  duration: const Duration(milliseconds: 1650),
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 238, 238, 238),
-                                  borderWidth: 5.0,
-                                  snackPosition: SnackPosition.BOTTOM,
-                                  margin: const EdgeInsets.all(20.0),
-                                  icon: const Icon(
-                                    CupertinoIcons.checkmark_alt_circle,
-                                  ),
-                                );
-
-                                auth.clear();
-                              }
-                            });
-                            return ElevatedButton(
-                              onPressed: auth.isLoading
-                                  ? null
-                                  : () {
-                                      if (_formKey.currentState!.validate()) {
-                                        _formKey.currentState!.save();
-
-                                        final formData =
-                                            _formKey.currentState!.value;
-
-                                        final String password =
-                                            formData['password'];
-                                        final String confirmPassword =
-                                            formData['confirmPassword'];
-
-                                        if (confirmPassword == password) {
-                                          if (auth.responseData != 0) {
-                                            auth.resetPassword(
-                                                idUser: auth.responseData,
-                                                password: confirmPassword
-                                                    .toString()
-                                                    .trim());
-                                          } else {
-                                            auth.resetPassword(
-                                                idUser: idUser,
-                                                password: confirmPassword
-                                                    .toString()
-                                                    .trim());
-                                          }
-                                        } else {
-                                          Get.snackbar(
-                                            "Information",
-                                            "Password And Confirm Password Not Match",
-                                            animationDuration: const Duration(
-                                                milliseconds: 300),
-                                            duration: const Duration(
-                                                milliseconds: 1650),
-                                            backgroundColor:
-                                                const Color.fromARGB(
-                                                    255, 238, 238, 238),
-                                            borderWidth: 5.0,
-                                            snackPosition: SnackPosition.BOTTOM,
-                                            margin: const EdgeInsets.all(20.0),
-                                            icon: const Icon(
-                                              CupertinoIcons
-                                                  .checkmark_alt_circle,
-                                            ),
-                                          );
-                                        }
-                                      }
-                                    },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: auth.isLoading
-                                    ? Colors.grey
-                                    : const Color.fromARGB(255, 70, 116, 222),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                          child: ElevatedButton(
+                            onPressed: () => Get.offAllNamed(Routes.LOGIN),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 70, 116, 222),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              "Reset Password",
+                              style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color.fromARGB(255, 255, 255, 255),
                                 ),
                               ),
-                              child: auth.isLoading
-                                  ? Text(
-                                      "Loading ...",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black54,
-                                        ),
-                                      ),
-                                    )
-                                  : Text(
-                                      "Reset Password",
-                                      style: GoogleFonts.poppins(
-                                        textStyle: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
-                                        ),
-                                      ),
-                                    ),
-                            );
-                          }),
+                            ),
+                          ),
                         ),
                       ],
                     ),
