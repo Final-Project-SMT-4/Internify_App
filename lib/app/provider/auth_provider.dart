@@ -21,6 +21,66 @@ class AuthenticationProvider extends ChangeNotifier {
   String get resMessage => _resMessage;
   int get responseData => _responseData;
 
+ void registerUser({
+    required String name,
+    required String email,
+    required String password,
+    BuildContext? context,
+  }) async {
+    _isLoading = true;
+    notifyListeners();
+
+    String url = "$requestBaseUrl/register";
+
+    final body = {
+      "nama": name,
+      "email": email,
+      "password": password,
+    };
+    print(body);
+
+    try {
+      http.Response req = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode(body),
+      );
+
+      if (req.statusCode == 200) {
+        final res = json.decode(req.body);
+
+        print(res);
+
+        _isLoading = true;
+        _resMessage = "Account Successfully Created";
+
+        notifyListeners();
+
+        Get.offAllNamed(Routes.LOGIN);
+      } else {
+        final res = json.decode(req.body);
+
+        print(res);
+
+        _isLoading = false;
+        _resMessage = res["message"];
+
+        notifyListeners();
+      }
+    } on SocketException catch (_) {
+      _isLoading = false;
+      _resMessage = "Internet connection is not available";
+    } catch (e) {
+      _isLoading = false;
+      _resMessage = "Please try again";
+      notifyListeners();
+
+      print(e);
+    }
+  }
+
   void loginUser({
     required String email,
     required String password,

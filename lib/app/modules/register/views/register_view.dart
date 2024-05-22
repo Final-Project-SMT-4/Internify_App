@@ -9,6 +9,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:simag_app/app/provider/auth_provider.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/register_controller.dart';
@@ -99,7 +101,7 @@ class RegisterView extends GetView<RegisterController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Username :",
+                          "Fullname :",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
                             textStyle: const TextStyle(
@@ -112,7 +114,7 @@ class RegisterView extends GetView<RegisterController> {
                           height: 5,
                         ),
                         FormBuilderTextField(
-                          name: "username",
+                          name: "fullname",
                           keyboardType: TextInputType.name,
                           style: GoogleFonts.poppins(
                             textStyle: const TextStyle(
@@ -125,7 +127,7 @@ class RegisterView extends GetView<RegisterController> {
                             bottom: MediaQuery.of(context).viewInsets.bottom,
                           ),
                           decoration: InputDecoration(
-                            hintText: "Username",
+                            hintText: "Fullname",
                             prefixIcon: const Icon(
                               CupertinoIcons.person,
                               size: 18.0,
@@ -290,7 +292,7 @@ class RegisterView extends GetView<RegisterController> {
                             ),
                             obscureText: _obscureText.value,
                             validator: FormBuilderValidators.compose([
-                              FormBuilderValidators.equalLength(8),
+                              FormBuilderValidators.minLength(8),
                               FormBuilderValidators.required(),
                             ]),
                           ),
@@ -299,26 +301,84 @@ class RegisterView extends GetView<RegisterController> {
                         SizedBox(
                           width: double.infinity,
                           height: 50,
-                          child: ElevatedButton(
-                            onPressed: () => Get.offAllNamed(Routes.LOGIN),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 70, 116, 222),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: Text(
-                              "Sign Up",
-                              style: GoogleFonts.poppins(
-                                textStyle: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color.fromARGB(255, 255, 255, 255),
+                          child: Consumer<AuthenticationProvider>(
+                              builder: (context, auth, child) {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              if (auth.resMessage != '') {
+                                Get.snackbar(
+                                  "Information",
+                                  auth.resMessage,
+                                  animationDuration:
+                                      const Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 1650),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 238, 238, 238),
+                                  borderWidth: 5.0,
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  margin: const EdgeInsets.all(20.0),
+                                  icon: const Icon(
+                                    CupertinoIcons.checkmark_alt_circle,
+                                  ),
+                                );
+
+                                auth.clear();
+                              }
+                            });
+
+                            return ElevatedButton(
+                              onPressed: auth.isLoading
+                                  ? null
+                                  : () {
+                                      if (_formKey.currentState!.validate()) {
+                                        _formKey.currentState!.save();
+                                        final formData =
+                                            _formKey.currentState!.value;
+
+                                        final String? fullname =
+                                            formData['fullname'];
+                                        final String? email = formData['email'];
+                                        final String? password =
+                                            formData['password'];
+
+                                        auth.registerUser(
+                                          name: fullname.toString(),
+                                          email: email.toString().trim(),
+                                          password: password.toString().trim(),
+                                        );
+                                      }
+                                    },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: auth.isLoading
+                                    ? Colors.grey
+                                    : const Color.fromARGB(255, 70, 116, 222),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                            ),
-                          ),
+                              child: auth.isLoading
+                                  ? Text(
+                                      "Loading ...",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    )
+                                  : Text(
+                                      "Sign In",
+                                      style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255),
+                                        ),
+                                      ),
+                                    ),
+                            );
+                          }),
                         ),
                         const SizedBox(
                           height: 20,
