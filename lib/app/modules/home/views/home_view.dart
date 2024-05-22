@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import '../controllers/home_controller.dart';
 import 'package:simag_app/app/data/db_provider.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -34,7 +34,8 @@ class _HomeViewState extends State<HomeView> {
       token = fetchedToken;
     });
 
-    Provider.of<HomeController>(context, listen: false).getData(idUser: id, token: token);
+    Provider.of<HomeController>(context, listen: false)
+        .getData(idUser: id, token: token);
   }
 
   final List myDashboard = [
@@ -64,6 +65,14 @@ class _HomeViewState extends State<HomeView> {
     ],
   ];
 
+  String getDisplayName(String fullName) {
+    List<String> nameParts = fullName.split(' ');
+    if (nameParts.length > 1) {
+      return '${nameParts[0]} ${nameParts[1]}';
+    }
+    return nameParts[0];
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -76,6 +85,10 @@ class _HomeViewState extends State<HomeView> {
             ),
             child: Consumer<HomeController>(
                 builder: (context, homeController, child) {
+              // Name User Login
+              String displayName =
+                  getDisplayName(homeController.userData["name"] ?? "Guest");
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -91,7 +104,7 @@ class _HomeViewState extends State<HomeView> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Hi, ${homeController.userData["name"] ?? "Guest"}",
+                              "Hi, $displayName",
                               style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                                   color: Colors.black,
@@ -146,7 +159,8 @@ class _HomeViewState extends State<HomeView> {
                     child: GridView.builder(
                       itemCount: myDashboard.length,
                       physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                       ),
                       itemBuilder: (context, index) {

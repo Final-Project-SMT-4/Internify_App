@@ -1,16 +1,53 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously, library_private_types_in_public_api
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:simag_app/app/data/db_provider.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/profile_controller.dart';
 
-class ProfileView extends GetView<ProfileController> {
+class ProfileView extends StatefulWidget {
   const ProfileView({Key? key}) : super(key: key);
+
+  @override
+  _ProfileViewState createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  int id = 0;
+  String token = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchInitialData();
+  }
+
+  Future<void> _fetchInitialData() async {
+    int fetchedId = await DatabaseProvider().getUserId();
+    String fetchedToken = await DatabaseProvider().getToken();
+
+    setState(() {
+      id = fetchedId;
+      token = fetchedToken;
+    });
+
+    Provider.of<ProfileController>(context, listen: false)
+        .getData(idUser: id, token: token);
+  }
+
+  String getDisplayName(String fullName) {
+    List<String> nameParts = fullName.split(' ');
+    if (nameParts.length > 1) {
+      return '${nameParts[0]} ${nameParts[1]}';
+    }
+    return nameParts[0];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,53 +57,63 @@ class ProfileView extends GetView<ProfileController> {
         backgroundColor: Color.fromARGB(255, 72, 71, 156),
         foregroundColor: Colors.white,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(30))),
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              backgroundImage: AssetImage("assets/images/profile.png"),
-              backgroundColor: Colors.transparent,
-              radius: 48.5,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Budiman",
-              style: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 24.0,
-                ),
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
+          ),
+        ),
+        title: Consumer<ProfileController>(
+            builder: (context, profileController, child) {
+          // Name User Login
+          String displayName =
+              getDisplayName(profileController.userData["name"] ?? "Guest");
+
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircleAvatar(
+                backgroundImage: AssetImage("assets/images/profile.png"),
+                backgroundColor: Colors.transparent,
+                radius: 48.5,
               ),
-            ),
-            SizedBox(
-              height: 4,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Team Leader",
-                  style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                      fontSize: 18.0,
-                    ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                displayName,
+                style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 24.0,
                   ),
                 ),
-                SizedBox(
-                  width: 1,
-                ),
-                Icon(
-                  Icons.verified,
-                  color: Colors.blue,
-                  size: 12,
-                )
-              ],
-            )
-          ],
-        ),
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Team Leader",
+                    style: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 1,
+                  ),
+                  Icon(
+                    Icons.verified,
+                    color: Colors.blue,
+                    size: 12,
+                  )
+                ],
+              )
+            ],
+          );
+        }),
       ),
       backgroundColor: Color.fromARGB(255, 249, 249, 249),
       body: Column(
