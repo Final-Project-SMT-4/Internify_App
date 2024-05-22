@@ -34,9 +34,9 @@ class CodeOtpView extends GetView<CodeOtpController> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> arguments =
-        Get.arguments as Map<String, dynamic>;
-    final String email = arguments['email'];
+    final Map<String, dynamic>? arguments =
+        Get.arguments as Map<String, dynamic>?;
+    final String email = arguments?['email'] ?? 'guest@mail.com';
 
     return WillPopScope(
       onWillPop: () async {

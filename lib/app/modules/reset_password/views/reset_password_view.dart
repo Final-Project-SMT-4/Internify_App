@@ -33,9 +33,9 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> arguments =
-        Get.arguments as Map<String, dynamic>;
-    final int idUser = arguments['id_user'];
+    final Map<String, dynamic>? arguments =
+        Get.arguments as Map<String, dynamic>?;
+    final int idUser = arguments?['id_user'] ?? 0;
 
     return WillPopScope(
       onWillPop: () async {
@@ -307,11 +307,13 @@ class ResetPasswordView extends GetView<ResetPasswordController> {
                                                     .toString()
                                                     .trim());
                                           } else {
-                                            auth.resetPassword(
-                                                idUser: idUser,
-                                                password: confirmPassword
-                                                    .toString()
-                                                    .trim());
+                                            if (idUser != 0) {
+                                              auth.resetPassword(
+                                                  idUser: idUser,
+                                                  password: confirmPassword
+                                                      .toString()
+                                                      .trim());
+                                            }
                                           }
                                         } else {
                                           Get.snackbar(
