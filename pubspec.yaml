@@ -5,7 +5,7 @@ description: A new Flutter project.
 environment: 
   sdk: '>=3.3.0 <4.0.0'
 
-dependencies:
+dependencies: 
   file_picker: 8.0.3
   cupertino_icons: 1.0.2
   get: 4.6.6
@@ -23,24 +23,32 @@ dependencies:
   http: 1.2.1
   provider: 6.1.2
   shared_preferences: 2.2.3
+  flutter_launcher_icons: 0.13.1
   flutter: 
     sdk: flutter
 
-dev_dependencies:
+dev_dependencies: 
   flutter_lints: ^2.0.0
-  flutter_test:
+  flutter_test: 
     sdk: flutter
 
-flutter:
-  assets:
+flutter: 
+  assets: 
     - assets/lottie/
     - assets/logo/
     - assets/images/
-  fonts:
+  fonts: 
     - family: Poppins
-      fonts:
+      fonts: 
         - asset: assets/fonts/Poppins-Regular.ttf
         - asset: assets/fonts/Poppins-Medium.ttf
         - asset: assets/fonts/Poppins-SemiBold.ttf
         - asset: assets/fonts/Poppins-Bold.ttf
   uses-material-design: true
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: "AppIcon"
+  image_path: "assets/logo/ic_logo.png"
+  min_sdk_android: 21 
+  remove_alpha_ios: true
