@@ -2,10 +2,13 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:simag_app/app/modules/jobs/controllers/post_jobs_controller.dart';
 
 class JobsController extends GetxController {
   final PageController pageController = PageController();
+  final PostJobsController controller = PostJobsController();
   var selectedIndex = 0.obs;
+  var selectedFile = Rxn<PlatformFile>();
 
   void setPage(int index) {
     pageController.jumpToPage(index);
@@ -34,15 +37,21 @@ class JobsController extends GetxController {
     );
 
     if (result != null) {
-      PlatformFile file = result.files.first;
-
-      print(file.name);
-      print(file.bytes);
-      print(file.size);
-      print(file.extension);
-      print(file.path);
+      // PlatformFile file = result.files.first;
+      selectedFile.value = result.files.first;
+      // print(file.name);
+      // print(file.bytes);
+      // print(file.size);
+      // print(file.extension);
+      // print(file.path);
     } else {
       print("Batal Pick File");
     }
+  }
+
+  void removeFile() {
+    selectedFile.value = null;
+    controller.filepath = "";
+    print("File terhapus");
   }
 }

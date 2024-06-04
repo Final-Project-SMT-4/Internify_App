@@ -9,6 +9,7 @@ import 'package:simag_app/app/modules/home/controllers/home_controller.dart';
 import 'package:simag_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:simag_app/app/provider/auth_provider.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
+import 'package:simag_app/utils/app_theme.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
         title: "SIMAG",
         defaultTransition: Transition.native,
-        theme: ThemeData.light(),
+        theme: appTheme,
         initialRoute: Routes.SPLASH_SCREEN,
         getPages: AppPages.routes,
       ),
