@@ -17,6 +17,18 @@ class AboutJobs extends GetView<JobsController> {
     fetchController.fetchJobsById();
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(
+            CupertinoIcons.back,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: Obx(
         () {
           if (fetchController.jobsModel.value.message.isEmpty) {
@@ -36,7 +48,7 @@ class AboutJobs extends GetView<JobsController> {
                           children: [
                             Container(
                               color: Colors.white,
-                              height: 140,
+                              height: 70,
                             ),
                             Container(
                               color: Color.fromARGB(255, 242, 242, 242),
@@ -47,13 +59,10 @@ class AboutJobs extends GetView<JobsController> {
                         Center(
                           child: Column(
                             children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 70),
-                                child: CircleAvatar(
-                                  radius: 56,
-                                  backgroundImage:
-                                      AssetImage("assets/images/profile.png"),
-                                ),
+                              CircleAvatar(
+                                radius: 56,
+                                backgroundImage:
+                                    AssetImage("assets/images/profile.png"),
                               ),
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -101,13 +110,6 @@ class AboutJobs extends GetView<JobsController> {
                       ),
                     ),
                   ],
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 20, top: 20),
-                  child: InkWell(
-                    onTap: () => Get.back(),
-                    child: Icon(CupertinoIcons.arrow_left, size: 30),
-                  ),
                 ),
                 Positioned(
                   left: 0,

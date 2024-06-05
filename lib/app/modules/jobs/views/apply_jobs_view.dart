@@ -16,6 +16,18 @@ class ApplyJobs extends GetView<JobsController> {
     FetchJobsControllerById fetchController = Get.find();
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(
+            CupertinoIcons.back,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: Obx(
         () {
           if (fetchController.jobsModel.value.message.isEmpty) {
@@ -27,7 +39,6 @@ class ApplyJobs extends GetView<JobsController> {
             return Stack(
               children: [
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Stack(
                       children: [
@@ -35,7 +46,7 @@ class ApplyJobs extends GetView<JobsController> {
                           children: [
                             Container(
                               color: Colors.white,
-                              height: 140,
+                              height: 70,
                             ),
                             Container(
                               color: Color.fromARGB(255, 242, 242, 242),
@@ -46,13 +57,10 @@ class ApplyJobs extends GetView<JobsController> {
                         Center(
                           child: Column(
                             children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 70),
-                                child: CircleAvatar(
-                                  radius: 56,
-                                  backgroundImage:
-                                      AssetImage("assets/images/profile.png"),
-                                ),
+                              CircleAvatar(
+                                radius: 56,
+                                backgroundImage:
+                                    AssetImage("assets/images/profile.png"),
                               ),
                               Container(
                                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -77,6 +85,32 @@ class ApplyJobs extends GetView<JobsController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SizedBox(
+                            height: 17,
+                          ),
+                          Text(
+                            "Upload Internship Proposal",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey.shade400),
+                              color: Colors.white,
+                            ),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                contentPadding:
+                                    EdgeInsets.fromLTRB(15, 12, 15, 12),
+                                hintText: "Search",
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: 17,
                           ),
@@ -164,13 +198,6 @@ class ApplyJobs extends GetView<JobsController> {
                       ),
                     )
                   ],
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 20, top: 20),
-                  child: InkWell(
-                    onTap: () => Get.back(),
-                    child: Icon(CupertinoIcons.arrow_left, size: 30),
-                  ),
                 ),
                 Positioned(
                   left: 0,
