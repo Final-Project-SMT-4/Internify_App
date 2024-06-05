@@ -4,6 +4,7 @@ import 'package:simag_app/app/data/db_provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:simag_app/app/modules/jobs/model/jobs_mode_byId.dart';
 import 'package:simag_app/app/modules/jobs/model/jobs_model.dart';
+import 'package:simag_app/app/modules/jobs/model/kelompok_model.dart';
 
 class FetchJobsController extends GetxController {
   var jobsModel = JobsModel(message: '', data: []).obs;
@@ -61,6 +62,38 @@ class FetchJobsControllerById extends GetxController {
       jobsModel.value = jobsModelByIdFromJson(response.body);
     } else {
       throw Exception('Failed to load jobs');
+    }
+  }
+}
+
+class FetchKelompokController extends GetxController {
+  var kelompokModel = KelompokModel(message: '', data: DataKelompok()).obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchKelompok();
+  }
+
+  Future<void> fetchKelompok() async {
+    final requestBaseUrl = AppUrl.baseUrl;
+    final dbProvider = Get.put(DatabaseProvider());
+    final token = await dbProvider.getToken();
+
+    final url = Uri.parse('$requestBaseUrl/get-kelompok');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Accept': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      kelompokModel.value = kelompokModelFromJson(response.body);
+    } else {
+      throw Exception('Failed to load kelompok');
     }
   }
 }
