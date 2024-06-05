@@ -13,27 +13,23 @@ class AboutView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: TextButton(
+        backgroundColor: Colors.white,
+        leading: IconButton(
           onPressed: () => Get.back(),
           style: ElevatedButton.styleFrom(
             elevation: 0.0,
             backgroundColor: Colors.transparent,
           ),
-          child: const Icon(
-            CupertinoIcons.arrow_left,
+          icon: const Icon(
+            CupertinoIcons.back,
             color: Colors.black,
           ),
         ),
-        title: const Padding(
-          padding: EdgeInsets.only(
-            top: 5,
-          ),
-          child: Text(
-            "About",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
-            ),
+        title: const Text(
+          "About",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),

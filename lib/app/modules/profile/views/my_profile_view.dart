@@ -62,27 +62,23 @@ class _MyProfileViewState extends State<MyProfileView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: TextButton(
+        backgroundColor: Colors.white,
+        leading: IconButton(
           onPressed: () => Get.back(),
           style: ElevatedButton.styleFrom(
             elevation: 0.0,
             backgroundColor: Colors.transparent,
           ),
-          child: const Icon(
-            CupertinoIcons.arrow_left,
+          icon: const Icon(
+            CupertinoIcons.back,
             color: Colors.black,
           ),
         ),
-        title: const Padding(
-          padding: EdgeInsets.only(
-            top: 5,
-          ),
-          child: Text(
-            "My Profile",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
-            ),
+        title: const Text(
+          "My Profile",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -118,6 +114,8 @@ class _MyProfileViewState extends State<MyProfileView> {
                                   .toLowerCase()
                           : '',
                       'EmailAddress': userData['email'] ?? '',
+                      'college': userData['angkatan'] ?? '',
+                      'group': userData['golongan'] ?? '',
                       'PhoneNumber': userData['no_telp'] ?? '',
                     },
                     child: Column(
@@ -476,6 +474,118 @@ class _MyProfileViewState extends State<MyProfileView> {
                           height: 15,
                         ),
                         Text(
+                          "College Class :",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        FormBuilderTextField(
+                          name: "college",
+                          keyboardType: TextInputType.number,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          scrollPadding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                          ),
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration(
+                            hintText: "Year Of College",
+                            hintStyle: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(17),
+                              borderSide: const BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(17),
+                              borderSide: const BorderSide(color: Colors.white),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 17,
+                              horizontal: 17,
+                            ),
+                          ),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                          ]),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Group Class :",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        FormBuilderTextField(
+                          name: "group",
+                          keyboardType: TextInputType.text,
+                          style: GoogleFonts.poppins(
+                            textStyle: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          scrollPadding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                          ),
+                          cursorColor: Colors.black,
+                          decoration: InputDecoration(
+                            hintText: "Group Class",
+                            hintStyle: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            fillColor: Colors.white,
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(17),
+                              borderSide: const BorderSide(color: Colors.white),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(17),
+                              borderSide: const BorderSide(color: Colors.white),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 17,
+                              horizontal: 17,
+                            ),
+                          ),
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(),
+                          ]),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(
                           "Phone Number :",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
@@ -588,6 +698,9 @@ class _MyProfileViewState extends State<MyProfileView> {
                                             formData['Gender'];
                                         final String? email =
                                             formData['EmailAddress'];
+                                        final String? college =
+                                            formData['college'];
+                                        final String? group = formData['group'];
                                         final String? phone =
                                             formData['PhoneNumber'];
 
@@ -601,6 +714,8 @@ class _MyProfileViewState extends State<MyProfileView> {
                                           noTelp: phone.toString(),
                                           tanggalLahir: date,
                                           gender: gender.toString(),
+                                          college: college.toString(),
+                                          group: group.toString(),
                                         );
 
                                         await _fetchInitialData();

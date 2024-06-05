@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, camel_case_types, unused_element
 import 'package:flutter/material.dart';
 import 'package:simag_app/app/modules/jobs/controllers/fetch_jobs_controller.dart';
 import 'package:get/get.dart';

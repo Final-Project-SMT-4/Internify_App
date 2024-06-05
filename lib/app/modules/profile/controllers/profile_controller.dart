@@ -123,6 +123,8 @@ class ProfileController extends ChangeNotifier {
     required String noTelp,
     required DateTime tanggalLahir,
     required String gender,
+    required String college,
+    required String group,
     BuildContext? context,
   }) async {
     _isLoading = true;
@@ -139,6 +141,8 @@ class ProfileController extends ChangeNotifier {
       "no_telp": noTelp,
       "tanggal_lahir": tanggalLahir.toIso8601String(),
       "gender": gender,
+      "angkatan": college,
+      "golongan": group,
     };
     print(body);
 

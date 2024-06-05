@@ -22,27 +22,23 @@ class _MyTeamViewState extends State<MyTeamView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: TextButton(
+        backgroundColor: Colors.white,
+        leading: IconButton(
           onPressed: () => Get.back(),
           style: ElevatedButton.styleFrom(
             elevation: 0.0,
             backgroundColor: Colors.transparent,
           ),
-          child: const Icon(
-            CupertinoIcons.arrow_left,
+          icon: const Icon(
+            CupertinoIcons.back,
             color: Colors.black,
           ),
         ),
-        title: const Padding(
-          padding: EdgeInsets.only(
-            top: 5,
-          ),
-          child: Text(
-            "My Team Profile",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
-            ),
+        title: const Text(
+          "My Team Profile",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),

@@ -2,6 +2,8 @@
 //
 //     final jobsModelById = jobsModelByIdFromJson(jsonString);
 
+// ignore_for_file: file_names
+
 import 'dart:convert';
 
 JobsModelById jobsModelByIdFromJson(String str) =>

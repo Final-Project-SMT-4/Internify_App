@@ -1,9 +1,15 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:simag_app/app/data/db_provider.dart';
+
+import '../controllers/profile_controller.dart';
 
 class MemberTeamView extends StatefulWidget {
   final int memberCount;
@@ -16,22 +22,46 @@ class MemberTeamView extends StatefulWidget {
 class _MemberTeamViewState extends State<MemberTeamView> {
   final List<GlobalKey<FormBuilderState>> _formKeys = [];
   int currentPage = 0;
+  int id = 0;
+  String token = "";
   List<MemberData> membersData = [];
-  List<String> departmentOptions = [
-    'Teknologi Informasi',
-    'Manajemen Informasi',
-    'Bisnis Digital',
-    'Teknik Komputer',
-  ];
 
   @override
   void initState() {
     super.initState();
+    _fetchInitialData();
+    final degreeProvider =
+        Provider.of<ProfileController>(context, listen: false);
+    degreeProvider.getDataProdi();
+
     // Initialize member data list based on the member count
     for (int i = 0; i < widget.memberCount; i++) {
       _formKeys.add(GlobalKey<FormBuilderState>());
       membersData.add(MemberData());
     }
+  }
+
+  Future<void> _fetchInitialData() async {
+    int fetchedId = await DatabaseProvider().getUserId();
+    String fetchedToken = await DatabaseProvider().getToken();
+
+    setState(() {
+      id = fetchedId;
+      token = fetchedToken;
+    });
+
+    Provider.of<ProfileController>(context, listen: false)
+        .getData(idUser: id, token: token);
+  }
+
+  // Function to extract the numeric ID from the degree string
+  int? extractDegreeId(String degreeString) {
+    final RegExp regex = RegExp(r'^\d+');
+    final match = regex.firstMatch(degreeString);
+    if (match != null) {
+      return int.tryParse(match.group(0)!);
+    }
+    return null;
   }
 
   @override
@@ -161,6 +191,8 @@ class _MemberTeamViewState extends State<MemberTeamView> {
   }
 
   Widget buildMemberForm(int index) {
+    final degreeProvider = Provider.of<ProfileController>(context);
+
     return FormBuilder(
       key: _formKeys[index],
       onChanged: () {
@@ -295,7 +327,7 @@ class _MemberTeamViewState extends State<MemberTeamView> {
             height: 15,
           ),
           Text(
-            "Department :",
+            "Degree Program :",
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
               textStyle: const TextStyle(
@@ -307,59 +339,70 @@ class _MemberTeamViewState extends State<MemberTeamView> {
           const SizedBox(
             height: 5,
           ),
-          FormBuilderDropdown<String>(
-            name: "department",
-            isExpanded: false,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            items: departmentOptions
-                .map(
-                  (department) => DropdownMenuItem(
-                    value: department,
-                    child: Text(
-                      department,
-                      style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                        ),
-                      ),
+          degreeProvider.degree.isNotEmpty
+              ? FormBuilderDropdown<String>(
+                  name: "degree",
+                  isExpanded: false,
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
+                  items: degreeProvider.degree
+                      .map(
+                        (degree) => DropdownMenuItem(
+                          value: degree,
+                          child: Text(
+                            degree,
+                            style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  decoration: InputDecoration(
+                    hintText: "Degree Program",
+                    hintStyle: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    fillColor: Colors.white,
+                    filled: true,
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(17),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(17),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      vertical: 17,
+                      horizontal: 17,
+                    ),
+                  ),
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                  ]),
                 )
-                .toList(),
-            decoration: InputDecoration(
-              hintText: "Select Department",
-              hintStyle: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
+              : Text(
+                  "Loading ...",
+                  style: GoogleFonts.poppins(
+                    textStyle: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black54,
+                    ),
+                  ),
                 ),
-              ),
-              fillColor: Colors.white,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 17,
-                horizontal: 17,
-              ),
-            ),
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-            ]),
-          ),
           const SizedBox(
             height: 15,
           ),

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:get/get.dart';
 import 'package:simag_app/app/constant/url.dart';
 import 'package:simag_app/app/data/db_provider.dart';
