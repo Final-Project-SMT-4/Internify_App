@@ -6,12 +6,15 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:simag_app/app/data/db_provider.dart';
 import 'package:simag_app/app/modules/home/controllers/home_controller.dart';
+import 'package:simag_app/app/modules/navigation_bar/controllers/navigation_bar_controller.dart';
+import 'package:simag_app/app/modules/navigation_bar/views/navigation_bar_view.dart';
 import 'package:simag_app/app/modules/profile/controllers/profile_controller.dart';
 import 'package:simag_app/app/provider/auth_provider.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 import 'package:simag_app/utils/app_theme.dart';
 
 void main() {
+  Get.put(NavigationBarController());
   runApp(MyApp());
 }
 
@@ -31,6 +34,7 @@ class MyApp extends StatelessWidget {
         theme: appTheme,
         initialRoute: Routes.SPLASH_SCREEN,
         getPages: AppPages.routes,
+        home: NavigationBarView(),
       ),
     );
   }

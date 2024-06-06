@@ -21,7 +21,7 @@ class NavigationBarController extends GetxController {
   }
 
   void init() {
-    pageController = PageController(initialPage: 0);
+    pageController = PageController(initialPage: currentPage.value);
     super.onInit();
   }
 

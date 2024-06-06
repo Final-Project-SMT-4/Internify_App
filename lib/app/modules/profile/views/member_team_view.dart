@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -50,18 +51,8 @@ class _MemberTeamViewState extends State<MemberTeamView> {
       token = fetchedToken;
     });
 
-    Provider.of<ProfileController>(context, listen: false)
-        .getData(idUser: id, token: token);
-  }
-
-  // Function to extract the numeric ID from the degree string
-  int? extractDegreeId(String degreeString) {
-    final RegExp regex = RegExp(r'^\d+');
-    final match = regex.firstMatch(degreeString);
-    if (match != null) {
-      return int.tryParse(match.group(0)!);
-    }
-    return null;
+    // Provider.of<ProfileController>(context, listen: false)
+    //     .getData(idUser: id, token: token);
   }
 
   @override
@@ -69,7 +60,7 @@ class _MemberTeamViewState extends State<MemberTeamView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: TextButton(
+        leading: IconButton(
           onPressed: () {
             if (currentPage > 0) {
               setState(() {
@@ -83,8 +74,8 @@ class _MemberTeamViewState extends State<MemberTeamView> {
             elevation: 0.0,
             backgroundColor: Colors.transparent,
           ),
-          child: const Icon(
-            CupertinoIcons.arrow_left,
+          icon: const Icon(
+            CupertinoIcons.back,
             color: Colors.black,
           ),
         ),
@@ -141,46 +132,83 @@ class _MemberTeamViewState extends State<MemberTeamView> {
                         ),
                       ),
                     ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKeys[currentPage]
-                          .currentState!
-                          .saveAndValidate()) {
-                        membersData[currentPage] =
-                            MemberData.fromFormBuilderState(
-                                _formKeys[currentPage].currentState!);
-
-                        // print(
-                        //     'Member ${currentPage + 1} data: ${membersData[currentPage]}');
-
-                        if (currentPage < widget.memberCount - 1) {
-                          setState(() {
-                            currentPage++;
-                          });
-                        } else {
-                          // print('All forms completed');
-                          // print("All Data ${membersData}");
-                          // Proceed with the next action, like navigating to save all data
-                        }
+                  Consumer<ProfileController>(
+                      builder: (context, submit, child) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (submit.message != '') {
+                        Get.snackbar(
+                          "Information",
+                          submit.message,
+                          animationDuration: const Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 1650),
+                          backgroundColor:
+                              const Color.fromARGB(255, 238, 238, 238),
+                          borderWidth: 5.0,
+                          snackPosition: SnackPosition.BOTTOM,
+                          margin: const EdgeInsets.all(20.0),
+                          icon: const Icon(
+                            CupertinoIcons.checkmark_alt_circle,
+                          ),
+                        );
+                        submit.clear();
                       }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 70, 116, 222),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      currentPage < widget.memberCount - 1 ? "Next" : "Finish",
-                      style: GoogleFonts.poppins(
-                        textStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.white,
+                    });
+                    return ElevatedButton(
+                      onPressed: submit.isLoading
+                          ? null
+                          : () {
+                              if (_formKeys[currentPage]
+                                  .currentState!
+                                  .saveAndValidate()) {
+                                membersData[currentPage] =
+                                    MemberData.fromFormBuilderState(
+                                        _formKeys[currentPage].currentState!);
+
+                                if (currentPage < widget.memberCount - 1) {
+                                  setState(() {
+                                    currentPage++;
+                                  });
+                                } else {
+                                  // Proceed with the next action, like navigating to save all data
+                                  Provider.of<ProfileController>(context,
+                                          listen: false)
+                                      .insertMyTeam(membersData, token);
+                                }
+                              }
+                            },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: submit.isLoading
+                            ? Colors.grey
+                            : const Color.fromARGB(255, 70, 116, 222),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                    ),
-                  ),
+                      child: submit.isLoading
+                          ? Text(
+                              "Loading ...",
+                              style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            )
+                          : Text(
+                              currentPage < widget.memberCount - 1
+                                  ? "Next"
+                                  : "Finish",
+                              style: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                    );
+                  }),
                 ],
               ),
             ],
@@ -571,6 +599,118 @@ class _MemberTeamViewState extends State<MemberTeamView> {
             height: 15,
           ),
           Text(
+            "College Class :",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          FormBuilderTextField(
+            name: "college",
+            keyboardType: TextInputType.number,
+            style: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            scrollPadding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            cursorColor: Colors.black,
+            decoration: InputDecoration(
+              hintText: "Year Of College",
+              hintStyle: GoogleFonts.poppins(
+                textStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              fillColor: Colors.white,
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(17),
+                borderSide: const BorderSide(color: Colors.white),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(17),
+                borderSide: const BorderSide(color: Colors.white),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 17,
+                horizontal: 17,
+              ),
+            ),
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(),
+            ]),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Text(
+            "Group Class :",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          FormBuilderTextField(
+            name: "group",
+            keyboardType: TextInputType.text,
+            style: GoogleFonts.poppins(
+              textStyle: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            scrollPadding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            cursorColor: Colors.black,
+            decoration: InputDecoration(
+              hintText: "Group Class",
+              hintStyle: GoogleFonts.poppins(
+                textStyle: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              fillColor: Colors.white,
+              filled: true,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(17),
+                borderSide: const BorderSide(color: Colors.white),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(17),
+                borderSide: const BorderSide(color: Colors.white),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 17,
+                horizontal: 17,
+              ),
+            ),
+            validator: FormBuilderValidators.compose([
+              FormBuilderValidators.required(),
+            ]),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Text(
             "Phone Number :",
             textAlign: TextAlign.center,
             style: GoogleFonts.poppins(
@@ -645,38 +785,54 @@ class _MemberTeamViewState extends State<MemberTeamView> {
 class MemberData {
   String? fullname;
   String? nim;
-  String? department;
+  int? prodiId;
+  String? angkatan;
+  String? golongan;
+  String? phoneNumber;
   DateTime? dateOfBirth;
   String? gender;
-  String? emailAddress;
-  String? phoneNumber;
+  String? email;
 
-  // Constructor
   MemberData({
     this.fullname,
     this.nim,
-    this.department,
+    this.prodiId,
+    this.angkatan,
+    this.golongan,
+    this.phoneNumber,
     this.dateOfBirth,
     this.gender,
-    this.emailAddress,
-    this.phoneNumber,
+    this.email,
   });
 
-  // Method to create MemberData from FormBuilderState
-  factory MemberData.fromFormBuilderState(FormBuilderState formState) {
+  bool isEmpty() {
+    return fullname == null ||
+        nim == null ||
+        prodiId == null ||
+        angkatan == null ||
+        golongan == null ||
+        phoneNumber == null ||
+        dateOfBirth == null ||
+        gender == null ||
+        email == null;
+  }
+
+  factory MemberData.fromFormBuilderState(FormBuilderState state) {
     return MemberData(
-      fullname: formState.fields['Fullname']!.value,
-      nim: formState.fields['NIM']!.value,
-      department: formState.fields['department']!.value,
-      dateOfBirth: formState.fields['DateOfBirth']!.value,
-      gender: formState.fields['Gender']!.value,
-      emailAddress: formState.fields['EmailAddress']!.value,
-      phoneNumber: formState.fields['PhoneNumber']!.value,
+      fullname: state.fields['Fullname']?.value,
+      nim: state.fields['NIM']?.value,
+      prodiId: int.parse(state.fields['degree']?.value.split('.').first),
+      angkatan: state.fields['college']?.value,
+      golongan: state.fields['group']?.value,
+      phoneNumber: state.fields['PhoneNumber']?.value,
+      dateOfBirth: state.fields['DateOfBirth']?.value,
+      gender: state.fields['Gender']?.value,
+      email: state.fields['EmailAddress']?.value,
     );
   }
 
   @override
   String toString() {
-    return 'Fullname: $fullname, NIM: $nim, Department: $department, DateOfBirth: $dateOfBirth, Gender: $gender, EmailAddress: $emailAddress, PhoneNumber: $phoneNumber';
+    return 'MemberData{fullname: $fullname, nim: $nim, prodiId: $prodiId, angkatan: $angkatan, golongan: $golongan, phoneNumber: $phoneNumber, dateOfBirth: $dateOfBirth, gender: $gender, email: $email}';
   }
 }

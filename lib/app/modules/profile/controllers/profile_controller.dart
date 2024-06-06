@@ -4,8 +4,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:simag_app/app/constant/url.dart';
+import 'package:simag_app/app/modules/profile/views/member_team_view.dart';
+import 'package:simag_app/app/routes/app_pages.dart';
 
 class ProfileController extends ChangeNotifier {
   final requestBaseUrl = AppUrl.baseUrl;
@@ -165,8 +168,75 @@ class ProfileController extends ChangeNotifier {
         _message = "Successfully Update Profile";
 
         notifyListeners();
+
+        Get.back();
       } else {
         final res = json.decode(req.body);
+
+        print(res);
+
+        _isLoading = false;
+        _message = res["message"];
+
+        notifyListeners();
+      }
+    } on SocketException catch (_) {
+      _isLoading = false;
+      _message = "Internet connection is not available";
+    } catch (e) {
+      _isLoading = false;
+      _message = "Please try again";
+      notifyListeners();
+
+      print(e);
+    }
+  }
+
+  Future<void> insertMyTeam(List<MemberData> membersData, String token) async {
+    _isLoading = true;
+    notifyListeners();
+
+    List<Map<String, dynamic>> anggota = membersData.map((member) {
+      return {
+        'nim': member.nim,
+        'nama': member.fullname,
+        'id_prodi': member.prodiId,
+        'angkatan': member.angkatan,
+        'golongan': member.golongan,
+        'email': member.email,
+        'no_telp': member.phoneNumber,
+        'tanggal_lahir': member.dateOfBirth!.toIso8601String(),
+        'gender': member.gender,
+      };
+    }).toList();
+
+    String url = "$requestBaseUrl/create-kelompok";
+    final body = jsonEncode({
+      'anggota': anggota,
+    });
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        final res = json.decode(response.body);
+
+        print(res);
+
+        _isLoading = false;
+        _message = "Successfully Created Team";
+
+        notifyListeners();
+        Get.until((route) => Get.currentRoute == Routes.NAVIGATION_BAR);
+      } else {
+        final res = json.decode(response.body);
 
         print(res);
 
