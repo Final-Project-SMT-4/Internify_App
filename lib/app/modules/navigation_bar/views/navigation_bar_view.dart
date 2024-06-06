@@ -23,7 +23,7 @@ class NavigationBarView extends GetView<NavigationBarController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.init();
+    controller.onInit();
 
     return WillPopScope(
       onWillPop: () async {

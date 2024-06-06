@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:simag_app/app/data/db_provider.dart';
+import 'package:simag_app/app/modules/navigation_bar/controllers/navigation_bar_controller.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/profile_controller.dart';
@@ -172,7 +173,13 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                       TextButton(
                         onPressed: () {
+                          // Reset the index
+                          final navigationController =
+                              Get.find<NavigationBarController>();
+                          navigationController.resetToHomePage();
+
                           DatabaseProvider().logout();
+
                           Get.offAllNamed(Routes.LOGIN);
                         },
                         style: ButtonStyle(

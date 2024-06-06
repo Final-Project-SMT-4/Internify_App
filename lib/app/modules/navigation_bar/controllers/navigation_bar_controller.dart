@@ -6,23 +6,35 @@ class NavigationBarController extends GetxController {
 
   RxInt currentPage = 0.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    pageController = PageController(initialPage: currentPage.value);
+  }
+
   void goToPage(int page) {
-    currentPage.value = page;
-    pageController.jumpToPage(page);
+    if (pageController.hasClients) {
+      currentPage.value = page;
+      pageController.jumpToPage(page);
+    }
   }
 
   void animateToPage(int page) {
-    currentPage.value = page;
-    pageController.animateToPage(
-      page,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.ease,
-    );
+    if (pageController.hasClients) {
+      currentPage.value = page;
+      pageController.animateToPage(
+        page,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.ease,
+      );
+    }
   }
 
-  void init() {
-    pageController = PageController(initialPage: currentPage.value);
-    super.onInit();
+  void resetToHomePage() {
+    if (pageController.hasClients) {
+      currentPage.value = 0;
+      pageController.jumpToPage(0);
+    }
   }
 
   @override

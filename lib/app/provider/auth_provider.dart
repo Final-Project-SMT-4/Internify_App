@@ -21,7 +21,7 @@ class AuthenticationProvider extends ChangeNotifier {
   String get resMessage => _resMessage;
   int get responseData => _responseData;
 
- void registerUser({
+  void registerUser({
     required String name,
     required String email,
     required String password,
