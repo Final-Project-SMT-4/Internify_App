@@ -21,11 +21,17 @@ class PostJobsController extends GetxController {
     final FetchKelompokController fetchKelompok =
         Get.put(FetchKelompokController());
     await fetchKelompok.fetchKelompok();
-    final idKelompok = fetchKelompok.kelompokModel.value.data.id;
+    final idKelompok = fetchKelompok.kelompokModel.value.response.id;
+    print(idKelompok);
 
     //get id tempat magang
-    final FetchJobsControllerById fetchJobsById = Get.find();
+    final FetchJobsByIdController fetchJobsById = Get.find();
     final idTempatMagang = fetchJobsById.selectedMagang;
+    print(idTempatMagang);
+
+    //get id dosen
+    final FetchDosenController fetchDosen = Get.find();
+    final idDosen = fetchDosen.selectedDosen.value.id;
 
     //prepare post proposal
     final urlProposal =
@@ -51,6 +57,20 @@ class PostJobsController extends GetxController {
         },
       );
 
+      //post dosen
+      final urlDospem = Uri.parse('$requestBaseUrl/insert-dospem/$idKelompok');
+
+      final responseDospem = await http.post(
+        urlDospem,
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: {
+          'id_dospem': idDosen.toString(),
+        },
+      );
+
       //post proposal
       requestProposal.headers['Authorization'] = 'Bearer $token';
       requestProposal.headers['Accept'] = 'application/json';
@@ -58,16 +78,20 @@ class PostJobsController extends GetxController {
       final responseProposal = await http.Response.fromStream(streamedResponse);
 
       if (responseProposal.statusCode == 200 &&
-          responseTempatMagang.statusCode == 200) {
+          responseTempatMagang.statusCode == 200 &&
+          responseDospem.statusCode == 200) {
         print('Response: ${responseProposal.body}');
         print('Response: ${responseTempatMagang.body}');
+        print('Response: ${responseDospem.body}');
         Get.offAllNamed(Routes.NAVIGATION_BAR);
       } else {
         print('Failed to upload proposal: ${responseProposal.statusCode}');
+        print('Response: ${responseProposal.body}');
         print(
             'Failed to insert tempat magang: ${responseTempatMagang.statusCode}');
-        print('Response: ${responseProposal.body}');
         print('Response: ${responseTempatMagang.body}');
+        print('Failed to insert dospem: ${responseDospem.statusCode}');
+        print('Response: ${responseDospem.body}');
       }
     } catch (error) {
       print('Error uploading alur magang: $error');

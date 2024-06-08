@@ -12,12 +12,13 @@ class JobsView extends GetView<FetchJobsController> {
   @override
   Widget build(BuildContext context) {
     final FetchJobsController fetchController = Get.put(FetchJobsController());
-    final FetchJobsControllerById fetchIdController =
-        Get.put(FetchJobsControllerById());
+    final FetchJobsByIdController fetchIdController =
+        Get.put(FetchJobsByIdController());
 
     if (fetchController.jobsModel.value.data.isNotEmpty) {
       controller.fetchJobs();
     }
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 150,
@@ -37,6 +38,10 @@ class JobsView extends GetView<FetchJobsController> {
                   hintText: "Search",
                   border: InputBorder.none,
                 ),
+                onChanged: (value) {
+                  controller.posisi.value = value;
+                  controller.fetchJobs();
+                },
               ),
             ),
             Container(
@@ -52,6 +57,10 @@ class JobsView extends GetView<FetchJobsController> {
                   hintText: "Location",
                   border: InputBorder.none,
                 ),
+                onChanged: (value) {
+                  controller.alamat.value = value;
+                  controller.fetchJobs();
+                },
               ),
             ),
           ],
@@ -63,118 +72,126 @@ class JobsView extends GetView<FetchJobsController> {
         ),
       ),
       body: Obx(
-        () => fetchController.jobsModel.value.data.isEmpty
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : RefreshIndicator(
-                onRefresh: controller.fetchJobs,
-                child: ListView.builder(
-                  itemCount: fetchController.jobsModel.value.data.length,
-                  itemBuilder: (context, index) {
-                    final job = fetchController.jobsModel.value.data[index];
-                    return Container(
-                      margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color.fromARGB(38, 0, 0, 0),
-                                blurRadius: 10,
-                                spreadRadius: 0,
-                                offset: Offset(0, -2))
-                          ]),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            backgroundImage:
-                                AssetImage("assets/images/profile.png"),
-                            backgroundColor: Colors.transparent,
-                            radius: 26,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            job.posisi,
-                            style: TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.w600),
-                          ),
-                          Text(
-                            job.namaTempat,
-                            style: TextStyle(fontSize: 15),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Text(
-                            "Location : ${job.alamat}",
-                            style: TextStyle(fontSize: 13),
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                    shape: MaterialStatePropertyAll(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    foregroundColor: MaterialStatePropertyAll(
-                                        Color.fromARGB(255, 21, 10, 51)),
-                                    backgroundColor: MaterialStatePropertyAll(
-                                      Color.fromARGB(51, 246, 127, 202),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    fetchIdController.selectedMagang =
-                                        RxInt(job.id);
-                                    Get.toNamed(Routes.ABOUT_JOBS);
-                                  },
-                                  child: Text("About"),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Expanded(
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                    shape: MaterialStatePropertyAll(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    foregroundColor: MaterialStatePropertyAll(
-                                      Color.fromARGB(255, 21, 10, 51),
-                                    ),
-                                    backgroundColor: MaterialStatePropertyAll(
-                                      Color.fromARGB(51, 70, 116, 222),
+        () {
+          if (fetchController.isLoading.value) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (fetchController.jobsModel.value.data.isEmpty) {
+            return Center(
+              child: Text("No data available"),
+            );
+          } else {
+            return RefreshIndicator(
+              onRefresh: controller.fetchJobs,
+              child: ListView.builder(
+                itemCount: fetchController.jobsModel.value.data.length,
+                itemBuilder: (context, index) {
+                  final job = fetchController.jobsModel.value.data[index];
+                  return Container(
+                    margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Color.fromARGB(38, 0, 0, 0),
+                              blurRadius: 10,
+                              spreadRadius: 0,
+                              offset: Offset(0, -2))
+                        ]),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CircleAvatar(
+                          backgroundImage:
+                              AssetImage("assets/images/profile.png"),
+                          backgroundColor: Colors.transparent,
+                          radius: 26,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          job.posisi,
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          job.namaTempat,
+                          style: TextStyle(fontSize: 15),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "Location : ${job.alamat}",
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
-                                  onPressed: () {
-                                    fetchIdController.selectedMagang =
-                                        RxInt(job.id);
-                                    Get.toNamed(Routes.ABOUT_JOBS);
-                                  },
-                                  child: Text("Apply"),
+                                  foregroundColor: MaterialStatePropertyAll(
+                                      Color.fromARGB(255, 21, 10, 51)),
+                                  backgroundColor: MaterialStatePropertyAll(
+                                    Color.fromARGB(51, 246, 127, 202),
+                                  ),
                                 ),
+                                onPressed: () {
+                                  fetchIdController.selectedMagang =
+                                      RxInt(job.id);
+                                  Get.toNamed(Routes.ABOUT_JOBS);
+                                },
+                                child: Text("About"),
                               ),
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                            ),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Expanded(
+                              child: TextButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStatePropertyAll(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  foregroundColor: MaterialStatePropertyAll(
+                                    Color.fromARGB(255, 21, 10, 51),
+                                  ),
+                                  backgroundColor: MaterialStatePropertyAll(
+                                    Color.fromARGB(51, 70, 116, 222),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  fetchIdController.selectedMagang =
+                                      RxInt(job.id);
+                                  Get.toNamed(Routes.ABOUT_JOBS);
+                                },
+                                child: Text("Apply"),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                },
               ),
+            );
+          }
+        },
       ),
     );
   }

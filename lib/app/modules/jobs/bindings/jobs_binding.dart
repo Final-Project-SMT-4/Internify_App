@@ -16,8 +16,8 @@ class JobsBinding extends Bindings {
     Get.lazyPut<FetchJobsController>(
       () => FetchJobsController(),
     );
-    Get.lazyPut<FetchJobsControllerById>(
-      () => FetchJobsControllerById(),
+    Get.lazyPut<FetchJobsByIdController>(
+      () => FetchJobsByIdController(),
     );
   }
 }

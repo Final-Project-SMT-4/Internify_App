@@ -6,21 +6,21 @@
 
 import 'dart:convert';
 
-JobsModelById jobsModelByIdFromJson(String str) =>
-    JobsModelById.fromJson(json.decode(str));
+JobsByIdModel jobsModelByIdFromJson(String str) =>
+    JobsByIdModel.fromJson(json.decode(str));
 
-String jobsModelByIdToJson(JobsModelById data) => json.encode(data.toJson());
+String jobsModelByIdToJson(JobsByIdModel data) => json.encode(data.toJson());
 
-class JobsModelById {
+class JobsByIdModel {
   String message;
   Data data;
 
-  JobsModelById({
+  JobsByIdModel({
     required this.message,
     required this.data,
   });
 
-  factory JobsModelById.fromJson(Map<String, dynamic> json) => JobsModelById(
+  factory JobsByIdModel.fromJson(Map<String, dynamic> json) => JobsByIdModel(
         message: json["message"],
         data: Data.fromJson(json["data"]),
       );
@@ -47,7 +47,7 @@ class Data {
   DateTime createdAt;
   DateTime updatedAt;
 
-    Data({
+  Data({
     this.id = 0,
     this.namaTempat = '',
     this.posisi = '',

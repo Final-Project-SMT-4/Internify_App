@@ -11,7 +11,7 @@ class Page1About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FetchJobsControllerById fetchController = Get.find();
+    final FetchJobsByIdController fetchController = Get.find();
 
     return Obx(() {
       if (fetchController.jobsModel.value.message.isEmpty) {

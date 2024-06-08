@@ -38,7 +38,7 @@ class AppPages {
   AppPages._();
 
   static final routes = [
-     GetPage(
+    GetPage(
       name: _Paths.SPLASH_SCREEN,
       page: () => const SplashScreen(),
     ),
@@ -92,7 +92,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.APPLY_JOBS,
-      page: () => const ApplyJobs(),
+      page: () => ApplyJobs(),
     ),
     GetPage(
       name: _Paths.PROFILE,
@@ -126,7 +126,7 @@ class AppPages {
       name: _Paths.MY_TEAM,
       page: () => const MyTeamView(),
     ),
-     GetPage(
+    GetPage(
       name: _Paths.MEMBER_TEAM,
       page: () => const MemberTeamView(memberCount: 0),
     ),

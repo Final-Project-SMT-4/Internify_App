@@ -4,54 +4,52 @@
 
 import 'dart:convert';
 
-KelompokModel kelompokModelFromJson(String str) =>
-    KelompokModel.fromJson(json.decode(str));
+KelompokModel kelompokModelFromJson(String str) => KelompokModel.fromJson(json.decode(str));
 
 String kelompokModelToJson(KelompokModel data) => json.encode(data.toJson());
 
 class KelompokModel {
-  String message;
-  DataKelompok data;
+    String message;
+    DataKelompok response;
 
-  KelompokModel({
-    required this.message,
-    required this.data,
-  });
+    KelompokModel({
+        required this.message,
+        required this.response,
+    });
 
-  factory KelompokModel.fromJson(Map<String, dynamic> json) => KelompokModel(
+    factory KelompokModel.fromJson(Map<String, dynamic> json) => KelompokModel(
         message: json["message"],
-        data: DataKelompok.fromJson(json["data"]),
-      );
+        response: DataKelompok.fromJson(json["response"]),
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "message": message,
-        "data": data.toJson(),
-      };
+        "response": response.toJson(),
+    };
 }
 
 class DataKelompok {
-  int id;
-  String namaKelompok;
-  int idUsers;
-  int idDospem;
-  DateTime createdAt;
-  DateTime updatedAt;
-  String name;
-  List<dynamic> anggota;
+    int id;
+    String namaKelompok;
+    int idUsers;
+    int idDospem;
+    DateTime createdAt;
+    DateTime updatedAt;
+    String name;
+    List<Anggota> anggota;
 
-  DataKelompok({
-    this.id = 0,
-    this.namaKelompok = '',
-    this.idUsers = 0,
-    this.idDospem = 0,
-    DateTime? createdAt,
-    DateTime? updatedAt,
-    this.name = '',
-    this.anggota = const [],
-  })  : createdAt = createdAt ?? DateTime.now(),
-        updatedAt = updatedAt ?? DateTime.now();
+    DataKelompok({
+        required this.id,
+        required this.namaKelompok,
+        required this.idUsers,
+        required this.idDospem,
+        required this.createdAt,
+        required this.updatedAt,
+        required this.name,
+        required this.anggota,
+    });
 
-  factory DataKelompok.fromJson(Map<String, dynamic> json) => DataKelompok(
+    factory DataKelompok.fromJson(Map<String, dynamic> json) => DataKelompok(
         id: json["id"],
         namaKelompok: json["nama_kelompok"],
         idUsers: json["id_users"],
@@ -59,10 +57,10 @@ class DataKelompok {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         name: json["name"],
-        anggota: List<dynamic>.from(json["anggota"].map((x) => x)),
-      );
+        anggota: List<Anggota>.from(json["anggota"].map((x) => Anggota.fromJson(x))),
+    );
 
-  Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toJson() => {
         "id": id,
         "nama_kelompok": namaKelompok,
         "id_users": idUsers,
@@ -70,6 +68,54 @@ class DataKelompok {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "name": name,
-        "anggota": List<dynamic>.from(anggota.map((x) => x)),
-      };
+        "anggota": List<dynamic>.from(anggota.map((x) => x.toJson())),
+    };
+}
+
+class Anggota {
+    int id;
+    String nim;
+    int idKelompok;
+    String nama;
+    int idProdi;
+    String angkatan;
+    String golongan;
+    DateTime createdAt;
+    DateTime updatedAt;
+
+    Anggota({
+        required this.id,
+        required this.nim,
+        required this.idKelompok,
+        required this.nama,
+        required this.idProdi,
+        required this.angkatan,
+        required this.golongan,
+        required this.createdAt,
+        required this.updatedAt,
+    });
+
+    factory Anggota.fromJson(Map<String, dynamic> json) => Anggota(
+        id: json["id"],
+        nim: json["nim"],
+        idKelompok: json["id_kelompok"],
+        nama: json["nama"],
+        idProdi: json["id_prodi"],
+        angkatan: json["angkatan"],
+        golongan: json["golongan"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "nim": nim,
+        "id_kelompok": idKelompok,
+        "nama": nama,
+        "id_prodi": idProdi,
+        "angkatan": angkatan,
+        "golongan": golongan,
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+    };
 }

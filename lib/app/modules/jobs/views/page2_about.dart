@@ -10,7 +10,7 @@ class Page2About extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FetchJobsControllerById fetchController = Get.find();
+    final FetchJobsByIdController fetchController = Get.find();
     print(fetchController);
 
     return Obx(() {

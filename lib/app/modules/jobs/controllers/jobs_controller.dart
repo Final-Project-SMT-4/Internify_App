@@ -30,6 +30,13 @@ class JobsController extends GetxController {
     super.onClose();
   }
 
+  bool validate() {
+    if (selectedFile.value == null) {
+      return false;
+    }
+    return true;
+  }
+
   void pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,

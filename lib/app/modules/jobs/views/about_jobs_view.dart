@@ -13,7 +13,7 @@ class AboutJobs extends GetView<JobsController> {
 
   @override
   Widget build(BuildContext context) {
-    FetchJobsControllerById fetchController = Get.find();
+    FetchJobsByIdController fetchController = Get.find();
     fetchController.fetchJobsById();
 
     return Scaffold(
