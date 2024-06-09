@@ -14,7 +14,13 @@ import '../controllers/profile_controller.dart';
 
 class MemberTeamView extends StatefulWidget {
   final int memberCount;
-  const MemberTeamView({Key? key, required this.memberCount}) : super(key: key);
+  final List<MemberData>? initialMembersData;
+
+  const MemberTeamView({
+    Key? key,
+    required this.memberCount,
+    this.initialMembersData,
+  }) : super(key: key);
 
   @override
   State<MemberTeamView> createState() => _MemberTeamViewState();
@@ -38,7 +44,15 @@ class _MemberTeamViewState extends State<MemberTeamView> {
     // Initialize member data list based on the member count
     for (int i = 0; i < widget.memberCount; i++) {
       _formKeys.add(GlobalKey<FormBuilderState>());
-      membersData.add(MemberData());
+    }
+
+    if (widget.initialMembersData != null) {
+      membersData = widget.initialMembersData!;
+    } else {
+      membersData = List<MemberData>.generate(
+        widget.memberCount,
+        (index) => MemberData(),
+      );
     }
   }
 
@@ -50,9 +64,6 @@ class _MemberTeamViewState extends State<MemberTeamView> {
       id = fetchedId;
       token = fetchedToken;
     });
-
-    // Provider.of<ProfileController>(context, listen: false)
-    //     .getData(idUser: id, token: token);
   }
 
   @override
@@ -156,7 +167,7 @@ class _MemberTeamViewState extends State<MemberTeamView> {
                     return ElevatedButton(
                       onPressed: submit.isLoading
                           ? null
-                          : () {
+                          : () async {
                               if (_formKeys[currentPage]
                                   .currentState!
                                   .saveAndValidate()) {
@@ -169,10 +180,28 @@ class _MemberTeamViewState extends State<MemberTeamView> {
                                     currentPage++;
                                   });
                                 } else {
-                                  // Proceed with the next action, like navigating to save all data
-                                  Provider.of<ProfileController>(context,
-                                          listen: false)
-                                      .insertMyTeam(membersData, token);
+                                  if (widget.initialMembersData != null) {
+                                    Provider.of<ProfileController>(context,
+                                            listen: false)
+                                        .getDataKelompok(id: id, token: token)
+                                        .then(
+                                      (data) {
+                                        int idKelompok = data?['id'];
+                                        Provider.of<ProfileController>(context,
+                                                listen: false)
+                                            .updateMyTeam(
+                                                membersData, idKelompok, token);
+                                      },
+                                    );
+
+                                    await _fetchInitialData();
+                                  } else {
+                                    Provider.of<ProfileController>(context,
+                                            listen: false)
+                                        .insertMyTeam(membersData, token);
+                                  }
+
+                                  await _fetchInitialData();
                                 }
                               }
                             },
@@ -198,7 +227,7 @@ class _MemberTeamViewState extends State<MemberTeamView> {
                           : Text(
                               currentPage < widget.memberCount - 1
                                   ? "Next"
-                                  : "Finish",
+                                  : "Save",
                               style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                                   fontSize: 18,
@@ -221,8 +250,30 @@ class _MemberTeamViewState extends State<MemberTeamView> {
   Widget buildMemberForm(int index) {
     final degreeProvider = Provider.of<ProfileController>(context);
 
+    // Prefill form data if available
+    final memberData = membersData[index];
+
+// Convert prodiId to degree string format
+    String? initialDegree;
+    if (memberData.prodiId != null) {
+      initialDegree = degreeProvider.degree.firstWhere(
+          (degree) => degree.startsWith('${memberData.prodiId}.'),
+          orElse: () => '');
+    }
+
     return FormBuilder(
       key: _formKeys[index],
+      initialValue: {
+        'Fullname': memberData.fullname,
+        'NIM': memberData.nim,
+        'degree': initialDegree,
+        'DateOfBirth': memberData.dateOfBirth,
+        'Gender': memberData.gender,
+        'EmailAddress': memberData.email,
+        'college': memberData.angkatan,
+        'group': memberData.golongan,
+        'PhoneNumber': memberData.phoneNumber,
+      },
       onChanged: () {
         _formKeys[index].currentState!.save();
       },
@@ -745,7 +796,7 @@ class _MemberTeamViewState extends State<MemberTeamView> {
                 ),
               ),
               prefixIcon: Padding(
-                padding: const EdgeInsets.all(15),
+                padding: const EdgeInsets.only(left: 15, top: 12),
                 child: Text(
                   "+62",
                   style: GoogleFonts.poppins(

@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:simag_app/app/data/db_provider.dart';
 import 'package:simag_app/app/modules/navigation_bar/controllers/navigation_bar_controller.dart';
+import 'package:simag_app/app/modules/profile/views/member_team_view.dart';
 import 'package:simag_app/app/routes/app_pages.dart';
 
 import '../controllers/profile_controller.dart';
@@ -130,13 +131,46 @@ class _ProfileViewState extends State<ProfileView> {
             textColor: Color.fromARGB(255, 49, 46, 58),
             onPressed: () => Get.toNamed(Routes.MY_PROFILE),
           ),
-          ButtonProfile(
-            btnIcon: CupertinoIcons.group_solid,
-            btnText: "My Team Profile",
-            iconColor: Color.fromARGB(255, 70, 116, 222),
-            textColor: Color.fromARGB(255, 49, 46, 58),
-            onPressed: () => Get.toNamed(Routes.MY_TEAM),
-          ),
+          Consumer<ProfileController>(builder: (context, check, child) {
+            return ButtonProfile(
+              btnIcon: CupertinoIcons.group_solid,
+              btnText: "My Team Profile",
+              iconColor: Color.fromARGB(255, 70, 116, 222),
+              textColor: Color.fromARGB(255, 49, 46, 58),
+              onPressed: () async {
+                var data = await check.getDataKelompok(id: id, token: token);
+
+                if (data != null && data['anggota'] != null) {
+                  Get.to(
+                    () => MemberTeamView(
+                      memberCount: data['anggota'].length,
+                      initialMembersData: List<MemberData>.from(
+                        data['anggota'].map((member) => MemberData(
+                              fullname: member['nama'] ?? '',
+                              nim: member['nim'] ?? '',
+                              prodiId: member['id_prodi'] ?? '',
+                              angkatan: member['angkatan'] ?? '',
+                              golongan: member['golongan'] ?? '',
+                              dateOfBirth: member['tanggal_lahir'] != null
+                                  ? DateTime.parse(member['tanggal_lahir'])
+                                  : null,
+                              gender: member['jenis_kelamin'][0].toUpperCase() +
+                                      member['jenis_kelamin']
+                                          .substring(1)
+                                          .toLowerCase() ??
+                                  '',
+                              phoneNumber: member['no_telp'] ?? '',
+                              email: member['email'] ?? '',
+                            )),
+                      ),
+                    ),
+                  );
+                } else {
+                  Get.toNamed(Routes.MY_TEAM);
+                }
+              },
+            );
+          }),
           ButtonProfile(
             btnIcon: CupertinoIcons.info_circle_fill,
             btnText: "About",

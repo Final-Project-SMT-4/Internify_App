@@ -75,6 +75,48 @@ class ProfileController extends ChangeNotifier {
     }
   }
 
+   Future<Map<String, dynamic>?> getDataKelompok({
+    required int id,
+    required String token,
+  }) async {
+    String url = "$requestBaseUrl/get-kelompok";
+    final body = {"id": id};
+
+    try {
+      _setLoading(true);
+      http.Response req = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: json.encode(body),
+      );
+
+      if (req.statusCode == 200) {
+        final res = json.decode(req.body);
+        return res["response"];
+      } else {
+        final res = json.decode(req.body);
+        _resMessage = res["message"];
+      }
+    } on SocketException catch (_) {
+      _resMessage = "Internet connection is not available";
+    } catch (e) {
+      _resMessage = "Please try again";
+    } finally {
+      _setLoading(false);
+      notifyListeners();
+    }
+    return null;
+  }
+
+  void _setLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  
   Future<void> getDataProdi() async {
     String url = "$requestBaseUrl/get-prodi";
 
@@ -232,6 +274,72 @@ class ProfileController extends ChangeNotifier {
 
         _isLoading = false;
         _message = "Successfully Created Team";
+
+        notifyListeners();
+        Get.until((route) => Get.currentRoute == Routes.NAVIGATION_BAR);
+      } else {
+        final res = json.decode(response.body);
+
+        print(res);
+
+        _isLoading = false;
+        _message = res["message"];
+
+        notifyListeners();
+      }
+    } on SocketException catch (_) {
+      _isLoading = false;
+      _message = "Internet connection is not available";
+    } catch (e) {
+      _isLoading = false;
+      _message = "Please try again";
+      notifyListeners();
+
+      print(e);
+    }
+  }
+
+  Future<void> updateMyTeam(List<MemberData> membersData, int idKelompok, String token) async {
+    _isLoading = true;
+    notifyListeners();
+
+    List<Map<String, dynamic>> anggota = membersData.map((member) {
+      return {
+        'nim': member.nim,
+        'nama': member.fullname,
+        'id_prodi': member.prodiId,
+        'angkatan': member.angkatan,
+        'golongan': member.golongan,
+        'email': member.email,
+        'no_telp': member.phoneNumber,
+        'tanggal_lahir': member.dateOfBirth!.toIso8601String(),
+        'gender': member.gender,
+      };
+    }).toList();
+
+    String url = "$requestBaseUrl/update-kelompok";
+    final body = jsonEncode({
+      'id': idKelompok,
+      'anggota': anggota,
+    });
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        final res = json.decode(response.body);
+
+        print(res);
+
+        _isLoading = false;
+        _message = "Successfully Updated Team";
 
         notifyListeners();
         Get.until((route) => Get.currentRoute == Routes.NAVIGATION_BAR);
