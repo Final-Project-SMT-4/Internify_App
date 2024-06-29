@@ -79,9 +79,9 @@ class Page1About extends StatelessWidget {
                   _listFacilities(
                     title: kriteria,
                   ),
-                SizedBox(
-                  height: 75,
-                )
+                // SizedBox(
+                //   height: 75,
+                // )
               ],
             ),
           ),

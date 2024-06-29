@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:simag_app/app/modules/jobs/views/about_jobs_view.dart';
-import 'package:simag_app/app/modules/jobs/views/apply_jobs_view.dart';
+import 'package:simag_app/app/modules/timeline/views/apply_jobs_view.dart';
+import 'package:simag_app/app/modules/timeline/views/surat_balasan_view.dart';
 import 'package:simag_app/app/modules/jobs/views/page1_about.dart';
 import 'package:simag_app/app/modules/jobs/views/page2_about.dart';
 import 'package:simag_app/app/modules/profile/views/about_view.dart';
@@ -93,6 +94,10 @@ class AppPages {
     GetPage(
       name: _Paths.APPLY_JOBS,
       page: () => ApplyJobs(),
+    ),
+    GetPage(
+      name: _Paths.SURAT_BALASAN,
+      page: () => const SuratBalasan(),
     ),
     GetPage(
       name: _Paths.PROFILE,

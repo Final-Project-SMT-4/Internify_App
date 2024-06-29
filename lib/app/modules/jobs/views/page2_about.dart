@@ -68,9 +68,9 @@ class Page2About extends StatelessWidget {
                   title: "Specialization",
                   desc: job.specialization,
                 ),
-                SizedBox(
-                  height: 75,
-                )
+                // SizedBox(
+                //   height: 75,
+                // )
               ],
             ),
           ),

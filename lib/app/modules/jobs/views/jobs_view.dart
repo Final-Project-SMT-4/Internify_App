@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:simag_app/app/modules/jobs/controllers/fetch_jobs_controller.dart';
@@ -132,6 +133,58 @@ class JobsView extends GetView<FetchJobsController> {
                         SizedBox(
                           height: 15,
                         ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       child: TextButton(
+                        //         style: ButtonStyle(
+                        //           shape: MaterialStatePropertyAll(
+                        //             RoundedRectangleBorder(
+                        //               borderRadius: BorderRadius.circular(8),
+                        //             ),
+                        //           ),
+                        //           foregroundColor: MaterialStatePropertyAll(
+                        //               Color.fromARGB(255, 21, 10, 51)),
+                        //           backgroundColor: MaterialStatePropertyAll(
+                        //             Color.fromARGB(51, 246, 127, 202),
+                        //           ),
+                        //         ),
+                        //         onPressed: () {
+                        //           fetchIdController.selectedMagang =
+                        //               RxInt(job.id);
+                        //           Get.toNamed(Routes.ABOUT_JOBS);
+                        //         },
+                        //         child: Text("About"),
+                        //       ),
+                        //     ),
+                        //     SizedBox(
+                        //       width: 15,
+                        //     ),
+                        //     Expanded(
+                        //       child: TextButton(
+                        //         style: ButtonStyle(
+                        //           shape: MaterialStatePropertyAll(
+                        //             RoundedRectangleBorder(
+                        //               borderRadius: BorderRadius.circular(8),
+                        //             ),
+                        //           ),
+                        //           foregroundColor: MaterialStatePropertyAll(
+                        //             Color.fromARGB(255, 21, 10, 51),
+                        //           ),
+                        //           backgroundColor: MaterialStatePropertyAll(
+                        //             Color.fromARGB(51, 70, 116, 222),
+                        //           ),
+                        //         ),
+                        //         onPressed: () {
+                        //           fetchIdController.selectedMagang =
+                        //               RxInt(job.id);
+                        //           Get.toNamed(Routes.ABOUT_JOBS);
+                        //         },
+                        //         child: Text("Apply"),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // )
                         Row(
                           children: [
                             Expanded(
@@ -145,7 +198,7 @@ class JobsView extends GetView<FetchJobsController> {
                                   foregroundColor: MaterialStatePropertyAll(
                                       Color.fromARGB(255, 21, 10, 51)),
                                   backgroundColor: MaterialStatePropertyAll(
-                                    Color.fromARGB(51, 246, 127, 202),
+                                    Color.fromARGB(51, 70, 116, 222),
                                   ),
                                 ),
                                 onPressed: () {
@@ -156,34 +209,8 @@ class JobsView extends GetView<FetchJobsController> {
                                 child: Text("About"),
                               ),
                             ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Expanded(
-                              child: TextButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStatePropertyAll(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                  ),
-                                  foregroundColor: MaterialStatePropertyAll(
-                                    Color.fromARGB(255, 21, 10, 51),
-                                  ),
-                                  backgroundColor: MaterialStatePropertyAll(
-                                    Color.fromARGB(51, 70, 116, 222),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  fetchIdController.selectedMagang =
-                                      RxInt(job.id);
-                                  Get.toNamed(Routes.ABOUT_JOBS);
-                                },
-                                child: Text("Apply"),
-                              ),
-                            ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   );

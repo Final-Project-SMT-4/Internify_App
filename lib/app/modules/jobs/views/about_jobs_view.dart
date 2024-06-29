@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:simag_app/app/modules/jobs/controllers/fetch_jobs_controller.dart';
-import 'package:simag_app/app/routes/app_pages.dart';
+// import 'package:simag_app/app/routes/app_pages.dart';
 import '../controllers/jobs_controller.dart';
 import '../views/page1_about.dart';
 import '../views/page2_about.dart';
@@ -15,6 +15,11 @@ class AboutJobs extends GetView<JobsController> {
   Widget build(BuildContext context) {
     FetchJobsByIdController fetchController = Get.find();
     fetchController.fetchJobsById();
+
+    // void _apply() {
+
+    //   Get.toNamed(Routes.APPLY_JOBS);
+    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -111,33 +116,33 @@ class AboutJobs extends GetView<JobsController> {
                     ),
                   ],
                 ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 22),
-                    color: Colors.white,
-                    height: 78,
-                    child: TextButton(
-                      onPressed: () => Get.toNamed(Routes.APPLY_JOBS),
-                      style: ButtonStyle(
-                        shape: MaterialStatePropertyAll(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        backgroundColor: MaterialStatePropertyAll(
-                          Color.fromARGB(255, 70, 116, 222),
-                        ),
-                      ),
-                      child: Text(
-                        "Apply Now",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   left: 0,
+                //   right: 0,
+                //   bottom: 0,
+                //   child: Container(
+                //     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 22),
+                //     color: Colors.white,
+                //     height: 78,
+                //     child: TextButton(
+                //       onPressed: () => _apply(),
+                //       style: ButtonStyle(
+                //         shape: MaterialStatePropertyAll(
+                //           RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(8),
+                //           ),
+                //         ),
+                //         backgroundColor: MaterialStatePropertyAll(
+                //           Color.fromARGB(255, 70, 116, 222),
+                //         ),
+                //       ),
+                //       child: Text(
+                //         "Apply Now",
+                //         style: TextStyle(color: Colors.white),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             );
           }

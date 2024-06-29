@@ -29,6 +29,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProfileController()),
       ],
       child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
         title: "SIMAG",
         defaultTransition: Transition.native,
         debugShowCheckedModeBanner: false,
