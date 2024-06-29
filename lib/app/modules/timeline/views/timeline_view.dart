@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -252,7 +254,8 @@ class ProgressTrack extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text("There is a revision, please upload again"),
+                  Text(
+                      "There is a revision because ${fetchAlurMagangController.alurMagangModel.value.data.dataAlurMagang?.revisiProposal}, Please upload the revised proposal"),
                 ],
               )
             else if (data == "ditolak")
