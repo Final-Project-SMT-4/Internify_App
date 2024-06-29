@@ -32,6 +32,7 @@ class _MemberTeamViewState extends State<MemberTeamView> {
   int id = 0;
   String token = "";
   List<MemberData> membersData = [];
+  final TextEditingController _teamNameController = TextEditingController();
 
   @override
   void initState() {
@@ -64,6 +65,9 @@ class _MemberTeamViewState extends State<MemberTeamView> {
       id = fetchedId;
       token = fetchedToken;
     });
+
+    Provider.of<ProfileController>(context, listen: false)
+        .getNamaKelompok(id: id, token: token);
   }
 
   @override
@@ -105,9 +109,84 @@ class _MemberTeamViewState extends State<MemberTeamView> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
           child: Column(
             children: [
+              Text(
+                "Member ${currentPage + 1}",
+                textAlign: TextAlign.left,
+                style: GoogleFonts.poppins(
+                  textStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15.0,
+              ),
+              if (currentPage == 0) ...[
+                Consumer<ProfileController>(
+                  builder: (context, profileController, child) {
+                    var teamData = profileController.teamName;
+                    _teamNameController.text = teamData["nama_kelompok"] ?? '';
+                    return FormBuilder(
+                      key: GlobalKey<FormBuilderState>(),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FormBuilderTextField(
+                            name: "teamName",
+                            controller: _teamNameController,
+                            style: GoogleFonts.poppins(
+                              textStyle: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            decoration: InputDecoration(
+                              labelText: "Team Name",
+                              labelStyle: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              hintText: "Enter team name",
+                              hintStyle: GoogleFonts.poppins(
+                                textStyle: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              fillColor: Colors.white,
+                              filled: true,
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(17),
+                                borderSide:
+                                    const BorderSide(color: Colors.white),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(17),
+                                borderSide:
+                                    const BorderSide(color: Colors.white),
+                              ),
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 17,
+                                horizontal: 17,
+                              ),
+                            ),
+                            validator: FormBuilderValidators.compose([
+                              FormBuilderValidators.required(),
+                            ]),
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ],
               IndexedStack(
                 index: currentPage,
                 children: List.generate(
@@ -115,7 +194,7 @@ class _MemberTeamViewState extends State<MemberTeamView> {
                   (index) => buildMemberForm(index),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -186,13 +265,16 @@ class _MemberTeamViewState extends State<MemberTeamView> {
                                         .getDataKelompok(id: id, token: token)
                                         .then(
                                       (data) {
-
                                         // Update Data Kelompok
                                         int idKelompok = data?['id'];
                                         Provider.of<ProfileController>(context,
                                                 listen: false)
                                             .updateMyTeam(
-                                                membersData, idKelompok, token);
+                                          _teamNameController.text,
+                                          membersData,
+                                          idKelompok,
+                                          token,
+                                        );
                                       },
                                     );
 
@@ -201,7 +283,11 @@ class _MemberTeamViewState extends State<MemberTeamView> {
                                     // Insert Data Kelompok
                                     Provider.of<ProfileController>(context,
                                             listen: false)
-                                        .insertMyTeam(membersData, token);
+                                        .insertMyTeam(
+                                      _teamNameController.text,
+                                      membersData,
+                                      token,
+                                    );
                                   }
 
                                   await _fetchInitialData();
@@ -256,7 +342,7 @@ class _MemberTeamViewState extends State<MemberTeamView> {
     // Prefill form data if available
     final memberData = membersData[index];
 
-// Convert prodiId to degree string format
+    // Convert prodiId to degree string format
     String? initialDegree;
     if (memberData.prodiId != null) {
       initialDegree = degreeProvider.degree.firstWhere(
@@ -277,179 +363,45 @@ class _MemberTeamViewState extends State<MemberTeamView> {
         'group': memberData.golongan,
         'PhoneNumber': memberData.phoneNumber,
       },
-      onChanged: () {
-        _formKeys[index].currentState!.save();
-      },
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Team Member ${index + 1}",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+          buildTextField(
+            name: 'Fullname',
+            label: 'Fullname',
+            hint: 'Enter Fullname',
           ),
-          const SizedBox(
-            height: 15,
+          const SizedBox(height: 15),
+          buildTextField(
+            name: 'NIM',
+            label: 'NIM',
+            hint: 'Enter NIM',
           ),
-          Text(
-            "Fullname :",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          FormBuilderTextField(
-            name: "Fullname",
-            keyboardType: TextInputType.name,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            scrollPadding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            cursorColor: Colors.black,
-            decoration: InputDecoration(
-              hintText: "Fullname",
-              hintStyle: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              fillColor: Colors.white,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 17,
-                horizontal: 17,
-              ),
-            ),
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-            ]),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(
-            "NIM :",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          FormBuilderTextField(
-            name: "NIM",
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            scrollPadding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            cursorColor: Colors.black,
-            decoration: InputDecoration(
-              hintText: "NIM",
-              hintStyle: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              fillColor: Colors.white,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 17,
-                horizontal: 17,
-              ),
-            ),
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-            ]),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(
-            "Degree Program :",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
+          const SizedBox(height: 15),
           degreeProvider.degree.isNotEmpty
-              ? FormBuilderDropdown<String>(
-                  name: "degree",
-                  isExpanded: false,
+              ? FormBuilderDropdown(
+                  name: 'degree',
+                  items: degreeProvider.degree
+                      .map((degree) => DropdownMenuItem(
+                            value: degree,
+                            child: Text(degree),
+                          ))
+                      .toList(),
                   style: GoogleFonts.poppins(
                     textStyle: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
+                      color: Colors.black,
                     ),
                   ),
-                  items: degreeProvider.degree
-                      .map(
-                        (degree) => DropdownMenuItem(
-                          value: degree,
-                          child: Text(
-                            degree,
-                            style: GoogleFonts.poppins(
-                              textStyle: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                      .toList(),
                   decoration: InputDecoration(
-                    hintText: "Degree Program",
+                    labelText: "Degree Program",
+                    labelStyle: GoogleFonts.poppins(
+                      textStyle: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                     hintStyle: GoogleFonts.poppins(
                       textStyle: const TextStyle(
                         fontSize: 18,
@@ -471,9 +423,6 @@ class _MemberTeamViewState extends State<MemberTeamView> {
                       horizontal: 17,
                     ),
                   ),
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(),
-                  ]),
                 )
               : Text(
                   "Loading ...",
@@ -485,351 +434,182 @@ class _MemberTeamViewState extends State<MemberTeamView> {
                     ),
                   ),
                 ),
-          const SizedBox(
-            height: 15,
+          const SizedBox(height: 15),
+          buildDateTimePicker(
+            name: 'DateOfBirth',
+            label: 'Date of Birth',
           ),
-          Text(
-            "Date Of Birth :",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+          const SizedBox(height: 15),
+          buildRadioGroup(
+            name: 'Gender',
+            label: 'Gender',
+            options: ['Male', 'Female'],
           ),
-          const SizedBox(
-            height: 5,
+          const SizedBox(height: 15),
+          buildTextField(
+            name: 'EmailAddress',
+            label: 'Email Address',
+            hint: 'Enter Email',
+            validators: [
+              FormBuilderValidators.email(),
+            ],
           ),
-          FormBuilderDateTimePicker(
-            name: "DateOfBirth",
-            inputType: InputType.date,
-            format: DateFormat("dd/MM/yyyy"),
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            scrollPadding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            cursorColor: Colors.black,
-            decoration: InputDecoration(
-              hintText: "Hari/Bulan/Tahun",
-              hintStyle: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              suffix: const Icon(CupertinoIcons.calendar),
-              fillColor: Colors.white,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 17,
-                horizontal: 17,
-              ),
-            ),
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-            ]),
+          const SizedBox(height: 15),
+          buildTextField(
+            name: 'college',
+            label: 'College Class',
+            hint: 'Enter angkatan',
           ),
-          const SizedBox(
-            height: 15,
+          const SizedBox(height: 15),
+          buildTextField(
+            name: 'group',
+            label: 'Group Class',
+            hint: 'Enter Golongan',
           ),
-          Text(
-            "Gender :",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+          const SizedBox(height: 15),
+          buildTextField(
+            name: 'PhoneNumber',
+            label: 'Phone Number',
+            hint: 'Enter Phone Number',
           ),
-          const SizedBox(
-            height: 5,
-          ),
-          FormBuilderRadioGroup(
-            name: "Gender",
-            activeColor: const Color.fromARGB(255, 255, 178, 55),
-            wrapAlignment: WrapAlignment.spaceBetween,
-            options: [
-              'Male',
-              'Female',
-            ]
-                .map(
-                  (gender) => FormBuilderFieldOption(
-                    value: gender,
-                  ),
-                )
-                .toList(),
-            decoration: InputDecoration(
-              fillColor: Colors.white,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 5,
-                horizontal: 17,
-              ),
-            ),
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-            ]),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(
-            "Email Address :",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          FormBuilderTextField(
-            name: "EmailAddress",
-            keyboardType: TextInputType.emailAddress,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            scrollPadding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            cursorColor: Colors.black,
-            decoration: InputDecoration(
-              hintText: "Email Address",
-              hintStyle: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              fillColor: Colors.white,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 17,
-                horizontal: 17,
-              ),
-            ),
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-            ]),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(
-            "College Class :",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          FormBuilderTextField(
-            name: "college",
-            keyboardType: TextInputType.number,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            scrollPadding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            cursorColor: Colors.black,
-            decoration: InputDecoration(
-              hintText: "Year Of College",
-              hintStyle: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              fillColor: Colors.white,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 17,
-                horizontal: 17,
-              ),
-            ),
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-            ]),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(
-            "Group Class :",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          FormBuilderTextField(
-            name: "group",
-            keyboardType: TextInputType.text,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            scrollPadding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            cursorColor: Colors.black,
-            decoration: InputDecoration(
-              hintText: "Group Class",
-              hintStyle: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              fillColor: Colors.white,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 17,
-                horizontal: 17,
-              ),
-            ),
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-            ]),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(
-            "Phone Number :",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          FormBuilderTextField(
-            name: "PhoneNumber",
-            keyboardType: TextInputType.number,
-            style: GoogleFonts.poppins(
-              textStyle: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            scrollPadding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            cursorColor: Colors.black,
-            decoration: InputDecoration(
-              hintText: "Phone Number",
-              hintStyle: GoogleFonts.poppins(
-                textStyle: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: 15, top: 12),
-                child: Text(
-                  "+62",
-                  style: GoogleFonts.poppins(
-                    textStyle: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-              ),
-              fillColor: Colors.white,
-              filled: true,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(17),
-                borderSide: const BorderSide(color: Colors.white),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 17,
-                horizontal: 17,
-              ),
-            ),
-            validator: FormBuilderValidators.compose([
-              FormBuilderValidators.required(),
-            ]),
-          ),
+          const SizedBox(height: 15),
         ],
+      ),
+    );
+  }
+
+  FormBuilderTextField buildTextField({
+    required String name,
+    required String label,
+    required String hint,
+    int maxLines = 1,
+    List<String? Function(String?)>? validators,
+  }) {
+    return FormBuilderTextField(
+      name: name,
+      style: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        labelStyle: GoogleFonts.poppins(
+          textStyle: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        hintStyle: GoogleFonts.poppins(
+          textStyle: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        fillColor: Colors.white,
+        filled: true,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(17),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(17),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 17,
+          horizontal: 17,
+        ),
+      ),
+      validator:
+          validators != null ? FormBuilderValidators.compose(validators) : null,
+      maxLines: maxLines,
+    );
+  }
+
+  FormBuilderDateTimePicker buildDateTimePicker({
+    required String name,
+    required String label,
+  }) {
+    return FormBuilderDateTimePicker(
+      name: name,
+      inputType: InputType.date,
+      format: DateFormat("dd/MM/yyyy"),
+      style: GoogleFonts.poppins(
+        textStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: GoogleFonts.poppins(
+          textStyle: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        fillColor: Colors.white,
+        filled: true,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(17),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(17),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 17,
+          horizontal: 17,
+        ),
+      ),
+      validator: FormBuilderValidators.compose([
+        FormBuilderValidators.required(),
+      ]),
+    );
+  }
+
+  FormBuilderRadioGroup<String> buildRadioGroup({
+    required String name,
+    required String label,
+    required List<String> options,
+  }) {
+    return FormBuilderRadioGroup<String>(
+      name: name,
+      options: options
+          .map((option) => FormBuilderFieldOption(
+                value: option,
+                child: Text(option),
+              ))
+          .toList(),
+      validator: FormBuilderValidators.compose([
+        FormBuilderValidators.required(),
+      ]),
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: GoogleFonts.poppins(
+          textStyle: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        fillColor: Colors.white,
+        filled: true,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(17),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(17),
+          borderSide: const BorderSide(color: Colors.white),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: 17,
+          horizontal: 17,
+        ),
       ),
     );
   }
