@@ -35,7 +35,7 @@ class TimelineView extends GetView<TimelineController> {
             return const Center(child: CircularProgressIndicator());
           } else if (fetchAlurMagangController.alurMagangModel.value.data ==
               null)
-            return Text("Kosong");
+            return Text("Data not found");
           else {
             return SingleChildScrollView(
               child: Column(
@@ -44,37 +44,37 @@ class TimelineView extends GetView<TimelineController> {
                   ProgressTrack(
                     data: fetchAlurMagangController
                         .alurMagangModel.value.data.dataAlurMagang?.idKelompok,
-                    title: "Kelompok",
+                    title: "Team",
                     descriptionNull:
-                        "Silahkan isi kelompokmu dengan menekan kotak ini",
-                    descriptionNotNull: "Kelompok sudah terisi",
+                        "Please fill in your team by tapping on this box",
+                    descriptionNotNull: "Team is already filled in",
                     pageName: "my-team",
                   ),
                   ProgressTrack(
-                    title: "Proposal Magang",
+                    title: "Internship Proposal",
                     data: fetchAlurMagangController.alurMagangModel.value.data
                         .dataAlurMagang?.statusProposal,
-                    descriptionNull: "Silahkan lengkapi proposal",
+                    descriptionNull: "Please complete the proposal",
                     descriptionNotNull: "",
                     pageName: "apply-jobs",
                   ),
                   ProgressTrack(
                     data: fetchAlurMagangController.alurMagangModel.value.data
                         .dataAlurMagang?.suratBalasan,
-                    title: "Surat Balasan",
+                    title: "Reply Letter",
                     descriptionNull:
-                        "Silahkan upload surat balasan jika sudah ada",
+                        "Please upload the reply letter if you have it",
                     descriptionNotNull:
-                        "Surat balasan sudah diupload, menunggu surat pengantar",
+                        "Reply letter has been uploaded, waiting for the letter of acceptance",
                     pageName: "surat-balasan",
                   ),
                   ProgressTrack(
                     data: fetchAlurMagangController.alurMagangModel.value.data
                         .dataAlurMagang?.suratPengantar,
-                    title: "Surat Pengantar",
-                    descriptionNull: "Surat pengantar sedang diproses",
+                    title: "Letter of Acceptance",
+                    descriptionNull: "Letter of acceptance is being processed",
                     descriptionNotNull:
-                        "Silahkan download surat pengantar magang",
+                        "Please download the internship acceptance letter",
                     pageName: "download-surat-pengantar",
                   ),
                 ],
@@ -196,7 +196,7 @@ class ProgressTrack extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text("Silahkan upload proposal magang"),
+                  const Text("Please upload internship proposal"),
                 ],
               )
             else if (data == "menunggu konfirmasi")
@@ -224,7 +224,7 @@ class ProgressTrack extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text("Menunggu konfirmasi"),
+                  const Text("Waiting for confirmation"),
                 ],
               )
             else if (data == "revisi")
@@ -252,7 +252,7 @@ class ProgressTrack extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text("Terdapat revisi, silahkan upload kembali"),
+                  const Text("There is a revision, please upload again"),
                 ],
               )
             else if (data == "ditolak")
@@ -281,7 +281,7 @@ class ProgressTrack extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                      "Proposal anda ditolak karena ${fetchAlurMagangController.alurMagangModel.value.data.dataAlurMagang?.alasanProposalDitolak}. Silahkan memilih tempat magang yang lain"),
+                      "Your proposal has been rejected because ${fetchAlurMagangController.alurMagangModel.value.data.dataAlurMagang?.alasanProposalDitolak}. Please choose another internship place"),
                 ],
               )
             else if (data == "diterima")
@@ -310,7 +310,7 @@ class ProgressTrack extends StatelessWidget {
                     height: 10,
                   ),
                   const Text(
-                      "Selamat proposal anda diterima, silahkan lanjut ke proses selanjutnya"),
+                      "Congratulations, your proposal has been accepted, please proceed to the next step"),
                 ],
               )
             else

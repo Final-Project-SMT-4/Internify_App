@@ -40,7 +40,7 @@ class SuratBalasan extends GetView<TimelineController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Response Letter",
+          "Reply Letter",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
@@ -60,14 +60,14 @@ class SuratBalasan extends GetView<TimelineController> {
           children: [
             SizedBox(height: 17),
             const Text(
-              "Upload Response Letter",
+              "Upload Reply Letter",
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 10,
             ),
             const Text(
-              "Add your response letter",
+              "Add your reply letter",
             ),
             const SizedBox(
               height: 17,

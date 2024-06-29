@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: "SIMAG",
         defaultTransition: Transition.native,
-        debugShowCheckedModeBanner: false,
         theme: appTheme,
         initialRoute: Routes.SPLASH_SCREEN,
         getPages: AppPages.routes,
