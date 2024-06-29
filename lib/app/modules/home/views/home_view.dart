@@ -1,9 +1,8 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, unrelated_type_equality_checks
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:simag_app/app/modules/home/utils/dashboard_box.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controllers/home_controller.dart';
 import 'package:simag_app/app/data/db_provider.dart';
@@ -36,33 +35,18 @@ class _HomeViewState extends State<HomeView> {
 
     Provider.of<HomeController>(context, listen: false)
         .getData(idUser: id, token: token);
+
+    Provider.of<HomeController>(context, listen: false).getStatus(token: token);
+  }
+
+  Future<void> _refreshData() async {
+    await _fetchInitialData();
   }
 
   final List myDashboard = [
-    [
-      "Completed",
-      "10",
-      CupertinoIcons.check_mark_circled_solid,
-      const Color.fromARGB(255, 125, 231, 198),
-    ],
-    [
-      "Pending",
-      "12",
-      Icons.pending,
-      const Color.fromARGB(255, 125, 136, 231),
-    ],
-    [
-      "On Going",
-      "2",
-      CupertinoIcons.rocket_fill,
-      const Color.fromARGB(255, 129, 232, 158),
-    ],
-    [
-      "Canceled",
-      "5",
-      CupertinoIcons.xmark_circle_fill,
-      const Color.fromARGB(255, 231, 125, 125),
-    ],
+    ["Hybrid", "100", Icons.home_work, Colors.lightBlueAccent],
+    ["Work From Office", "50", Icons.business, Colors.purpleAccent],
+    ["Work From Home", "25", Icons.home, Colors.orangeAccent],
   ];
 
   String getDisplayName(String fullName) {
@@ -89,22 +73,18 @@ class _HomeViewState extends State<HomeView> {
               String displayName =
                   getDisplayName(homeController.userData["name"] ?? "Guest");
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0,
-                          vertical: 0.0,
-                        ),
-                        child: Column(
+              return RefreshIndicator(
+                onRefresh: _refreshData,
+                child: ListView(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Hi, $displayName",
+                              "Hi, $displayName.",
                               style: GoogleFonts.poppins(
                                 textStyle: const TextStyle(
                                   color: Colors.black,
@@ -128,52 +108,140 @@ class _HomeViewState extends State<HomeView> {
                             ),
                           ],
                         ),
-                      ),
-                      const CircleAvatar(
-                        backgroundImage:
-                            AssetImage("assets/images/profile.png"),
-                        backgroundColor: Colors.transparent,
-                        radius: 25,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 5.0,
+                        const CircleAvatar(
+                          backgroundImage:
+                              AssetImage("assets/images/profile.png"),
+                          backgroundColor: Colors.transparent,
+                          radius: 25,
+                        ),
+                      ],
                     ),
-                    child: Text(
-                      "My Dashboard",
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    Text(
+                      "Find Your internship",
                       style: GoogleFonts.poppins(
                         textStyle: const TextStyle(
-                          fontSize: 24,
                           color: Colors.black,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: GridView.builder(
-                      itemCount: myDashboard.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                      ),
-                      itemBuilder: (context, index) {
-                        return DashboardBox(
-                          itemName: myDashboard[index][0],
-                          numberTask: myDashboard[index][1],
-                          icon: myDashboard[index][2],
-                          color: myDashboard[index][3],
-                        );
-                      },
+                    const SizedBox(
+                      height: 12.0,
                     ),
-                  )
-                ],
+                    SizedBox(
+                      height: 250,
+                      child: StaggeredGridView.countBuilder(
+                        crossAxisCount: 4,
+                        itemCount: myDashboard.length,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: myDashboard[index][3],
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  myDashboard[index][2],
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                const SizedBox(height: 10),
+                                Text(
+                                  myDashboard[index][1],
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                      fontSize: 24,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  myDashboard[index][0],
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        staggeredTileBuilder: (int index) =>
+                            StaggeredTile.count(2, index == 0 ? 2.8 : 1.4),
+                        mainAxisSpacing: 10.0,
+                        crossAxisSpacing: 10.0,
+                      ),
+                    ),
+                    Text(
+                      "Status Apply",
+                      style: GoogleFonts.poppins(
+                        textStyle: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10.0,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.deepPurpleAccent,
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      padding: const EdgeInsets.all(15.0),
+                      child: Consumer<HomeController>(
+                          builder: (context, status, child) {
+                        return Row(
+                          children: [
+                            Icon(
+                              status.statusData ==
+                                      "Proposal awaiting confirmation from the admin or lecturer."
+                                  ? Icons.work
+                                  : Icons.question_mark_rounded,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  status.statusData ==
+                                          "Not Yet Selected an Internship."
+                                      ? status.statusData["message"]
+                                      : "Not Yet In a Group",
+                                  style: GoogleFonts.poppins(
+                                    textStyle: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }),
+                    ),
+                  ],
+                ),
               );
             }),
           ),

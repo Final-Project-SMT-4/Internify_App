@@ -186,6 +186,8 @@ class _MemberTeamViewState extends State<MemberTeamView> {
                                         .getDataKelompok(id: id, token: token)
                                         .then(
                                       (data) {
+
+                                        // Update Data Kelompok
                                         int idKelompok = data?['id'];
                                         Provider.of<ProfileController>(context,
                                                 listen: false)
@@ -196,6 +198,7 @@ class _MemberTeamViewState extends State<MemberTeamView> {
 
                                     await _fetchInitialData();
                                   } else {
+                                    // Insert Data Kelompok
                                     Provider.of<ProfileController>(context,
                                             listen: false)
                                         .insertMyTeam(membersData, token);

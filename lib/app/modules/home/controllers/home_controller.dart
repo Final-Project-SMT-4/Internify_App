@@ -12,9 +12,11 @@ class HomeController extends ChangeNotifier {
 
   String _resMessage = "";
   Map<String, dynamic> _userData = {};
+  Map<String, dynamic> _statusData = {};
 
   String get resMessage => _resMessage;
   Map<String, dynamic> get userData => _userData;
+  Map<String, dynamic> get statusData => _statusData;
 
   void getData({
     required int idUser,
@@ -44,6 +46,49 @@ class HomeController extends ChangeNotifier {
         print(res);
 
         _userData = res["response"];
+        _resMessage = "Success";
+
+        notifyListeners();
+      } else {
+        final res = json.decode(req.body);
+
+        print(res);
+
+        _resMessage = res["message"];
+
+        notifyListeners();
+      }
+    } on SocketException catch (_) {
+      _resMessage = "Internet connection is not available";
+    } catch (e) {
+      _resMessage = "Please try again";
+      notifyListeners();
+
+      print(e);
+    }
+  }
+
+  void getStatus({
+    required String token,
+    BuildContext? context,
+  }) async {
+    String url = "$requestBaseUrl/get-alur-magang";
+
+    try {
+      http.Response req = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (req.statusCode == 200) {
+        final res = json.decode(req.body);
+
+        print(res);
+
+        _statusData = res["data"];
         _resMessage = "Success";
 
         notifyListeners();
