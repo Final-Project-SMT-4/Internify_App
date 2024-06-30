@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, unrelated_type_equality_checks
+// ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, unrelated_type_equality_checks, unnecessary_null_comparison
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
@@ -202,47 +202,63 @@ class _HomeViewState extends State<HomeView> {
                       height: 10.0,
                     ),
                     Container(
+                      width: double.infinity,
                       decoration: BoxDecoration(
                         color: Colors.deepPurpleAccent,
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       padding: const EdgeInsets.all(15.0),
                       child: Consumer<HomeController>(
-                          builder: (context, status, child) {
-                        return Row(
-                          children: [
-                            Icon(
-                              status.statusData ==
-                                      "Proposal awaiting confirmation from the admin or lecturer."
-                                  ? Icons.work
-                                  : Icons.question_mark_rounded,
-                              color: Colors.white,
-                              size: 30.0,
-                            ),
-                            const SizedBox(
-                              width: 5.0,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  status.statusData ==
-                                          "Not Yet Selected an Internship."
-                                      ? status.statusData["message"]
-                                      : "Not Yet In a Group",
-                                  style: GoogleFonts.poppins(
-                                    textStyle: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600,
+                        builder: (context, status, child) {
+                          var message = "Not Yet In a Group";
+                          var iconData = Icons.question_mark_rounded;
+
+                          if (status.statusData != null &&
+                              status.statusData["data"] != null) {
+                            if (status.statusData["message"] ==
+                                "Berhasil menampilkan data alur magang.") {
+                              message = status.statusData["data"]["message"];
+                            }
+
+                            if (status.statusData["data"]["message"] ==
+                                "Proposal awaiting confirmation from the admin or lecturer.") {
+                              iconData = Icons.work;
+                            }
+                          }
+
+                          return Row(
+                            children: [
+                              Icon(
+                                iconData,
+                                color: Colors.white,
+                                size: 30.0,
+                              ),
+                              const SizedBox(
+                                width: 8.0,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      message,
+                                      style: GoogleFonts.poppins(
+                                        textStyle: const TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      overflow: TextOverflow.visible,
+                                      softWrap: true,
                                     ),
-                                  ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ],
-                        );
-                      }),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
                   ],
                 ),

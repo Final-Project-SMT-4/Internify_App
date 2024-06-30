@@ -88,7 +88,7 @@ class HomeController extends ChangeNotifier {
 
         print(res);
 
-        _statusData = res["data"];
+        _statusData = res;
         _resMessage = "Success";
 
         notifyListeners();

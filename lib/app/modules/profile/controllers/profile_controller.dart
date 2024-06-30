@@ -16,13 +16,17 @@ class ProfileController extends ChangeNotifier {
   bool _isLoading = false;
   String _resMessage = "";
   String _message = "";
+
   Map<String, dynamic> _userData = {};
   List<String> _degree = [];
+  Map<String, dynamic> _teamName = {};
 
   bool get isLoading => _isLoading;
   String get resMessage => _resMessage;
   String get message => _message;
+
   Map<String, dynamic> get userData => _userData;
+  Map<String, dynamic> get teamName => _teamName;
   List<String> get degree => _degree;
 
   void getData({
@@ -75,7 +79,53 @@ class ProfileController extends ChangeNotifier {
     }
   }
 
-   Future<Map<String, dynamic>?> getDataKelompok({
+  void getNamaKelompok({
+    required int id,
+    required String token,
+    BuildContext? context,
+  }) async {
+    String url = "$requestBaseUrl/get-kelompok";
+    final body = {"id": id};
+
+    try {
+      http.Response req = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: json.encode(body),
+      );
+
+      if (req.statusCode == 200) {
+        final res = json.decode(req.body);
+
+        print(res);
+
+        _teamName = res["response"];
+        _resMessage = "Success";
+
+        notifyListeners();
+      } else {
+        final res = json.decode(req.body);
+
+        print(res);
+
+        _resMessage = res["message"];
+
+        notifyListeners();
+      }
+    } on SocketException catch (_) {
+      _resMessage = "Internet connection is not available";
+    } catch (e) {
+      _resMessage = "Please try again";
+      notifyListeners();
+
+      print(e);
+    }
+  }
+
+  Future<Map<String, dynamic>?> getDataKelompok({
     required int id,
     required String token,
   }) async {
@@ -116,7 +166,6 @@ class ProfileController extends ChangeNotifier {
     notifyListeners();
   }
 
-  
   Future<void> getDataProdi() async {
     String url = "$requestBaseUrl/get-prodi";
 
@@ -234,7 +283,8 @@ class ProfileController extends ChangeNotifier {
     }
   }
 
-  Future<void> insertMyTeam(List<MemberData> membersData, String token) async {
+  Future<void> insertMyTeam(
+      String teamName, List<MemberData> membersData, String token) async {
     _isLoading = true;
     notifyListeners();
 
@@ -254,6 +304,7 @@ class ProfileController extends ChangeNotifier {
 
     String url = "$requestBaseUrl/create-kelompok";
     final body = jsonEncode({
+      'nama_kelompok': teamName,
       'anggota': anggota,
     });
 
@@ -299,7 +350,8 @@ class ProfileController extends ChangeNotifier {
     }
   }
 
-  Future<void> updateMyTeam(List<MemberData> membersData, int idKelompok, String token) async {
+  Future<void> updateMyTeam(String teamName, List<MemberData> membersData,
+      int idKelompok, String token) async {
     _isLoading = true;
     notifyListeners();
 
@@ -320,6 +372,7 @@ class ProfileController extends ChangeNotifier {
     String url = "$requestBaseUrl/update-kelompok";
     final body = jsonEncode({
       'id': idKelompok,
+      'nama_kelompok': teamName,
       'anggota': anggota,
     });
 
