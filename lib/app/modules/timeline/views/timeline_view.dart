@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:get/get.dart';
 import 'package:simag_app/app/modules/timeline/controllers/fetch_jobs_controller.dart';
@@ -37,7 +38,7 @@ class TimelineView extends GetView<TimelineController> {
             return const Center(child: CircularProgressIndicator());
           } else if (fetchAlurMagangController.alurMagangModel.value.data ==
               null)
-            return Text("Data not found");
+            return const Text("Data not found");
           else {
             return SingleChildScrollView(
               child: Column(
@@ -61,15 +62,16 @@ class TimelineView extends GetView<TimelineController> {
                     pageName: "apply-jobs",
                   ),
                   ProgressTrack(
-                    data: fetchAlurMagangController.alurMagangModel.value.data
-                        .dataAlurMagang?.suratBalasan,
-                    title: "Reply Letter",
-                    descriptionNull:
-                        "Please upload the reply letter if you have it",
-                    descriptionNotNull:
-                        "Reply letter has been uploaded, waiting for the letter of acceptance",
-                    pageName: "surat-balasan",
-                  ),
+                      data: fetchAlurMagangController.alurMagangModel.value.data
+                          .dataAlurMagang?.suratBalasan,
+                      title: "Reply Letter",
+                      descriptionNull:
+                          "Please upload the reply letter if you have it",
+                      descriptionNotNull:
+                          "Reply letter has been uploaded, waiting for the letter of acceptance",
+                      pageName: "surat-balasan",
+                      dataStatus: fetchAlurMagangController.alurMagangModel
+                          .value.data.dataAlurMagang?.statusProposal),
                   ProgressTrack(
                     data: fetchAlurMagangController.alurMagangModel.value.data
                         .dataAlurMagang?.suratPengantar,
@@ -95,6 +97,7 @@ class ProgressTrack extends StatelessWidget {
   final String descriptionNotNull;
   final dynamic data;
   final String pageName;
+  final dynamic dataStatus;
 
   const ProgressTrack({
     Key? key,
@@ -103,6 +106,7 @@ class ProgressTrack extends StatelessWidget {
     required this.descriptionNull,
     required this.descriptionNotNull,
     required this.pageName,
+    this.dataStatus,
   }) : super(key: key);
 
   @override
@@ -136,7 +140,31 @@ class ProgressTrack extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          if (pageName == "download-surat-pengantar") {
+          if (data == null && pageName != "my-team") {
+            if (dataStatus == "diterima" && pageName == "surat-balasan") {
+              Get.toNamed(pageName);
+            } else {
+              Get.snackbar("Error", "Please complete previous steps",
+                  animationDuration: const Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 1650),
+                  backgroundColor: Colors.red,
+                  colorText: Colors.white,
+                  borderWidth: 5.0,
+                  snackPosition: SnackPosition.BOTTOM,
+                  margin: const EdgeInsets.all(20.0),
+                  icon: const Icon(CupertinoIcons.info_circle));
+            }
+          } else if (data != null && pageName == "my-team") {
+            Get.snackbar("Info", "Go to profile pages to see your team",
+                animationDuration: const Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 1650),
+                backgroundColor: Color.fromARGB(255, 70, 116, 222),
+                colorText: Colors.white,
+                borderWidth: 5.0,
+                snackPosition: SnackPosition.BOTTOM,
+                margin: const EdgeInsets.all(20.0),
+                icon: const Icon(CupertinoIcons.info_circle));
+          } else if (pageName == "download-surat-pengantar") {
             controller.downloadFile();
           } else {
             Get.toNamed(pageName);

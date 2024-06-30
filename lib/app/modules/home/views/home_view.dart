@@ -185,6 +185,9 @@ class _HomeViewState extends State<HomeView> {
                         crossAxisSpacing: 10.0,
                       ),
                     ),
+                    SizedBox(
+                      height: 50,
+                    ),
                     Text(
                       "Status Apply",
                       style: GoogleFonts.poppins(
